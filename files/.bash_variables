@@ -1,0 +1,9 @@
+export onx1_IP="10.12.4.128"
+export onx2_IP="10.12.65.154"
+
+export access_devel="/home/brian/MyONX/ONX_code/access-devel"
+
+export onx_test="/home/brian/MyONX/ONX_code/TEST/access-devel"
+export onx_test_commit="/home/brian/.bash_procedures/TestCommit/testCommit"
+
+export onx_builds="/home/brian/MyONX/ONX_builds"
