@@ -1,3 +1,0 @@
-#!/bin/bash
-
-svn diff "$@" | colordiff | less -R

@@ -1,7 +1,0 @@
-#!/bin/bash
-
-if [ $# -eq 0 ]; then
-    svn status
-else
-    svn status | grep ^[$1]
-fi
