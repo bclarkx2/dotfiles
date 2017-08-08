@@ -29,8 +29,9 @@ def main():
     for dotfile in dotfiles:
         source = os.path.join(files_dir, dotfile)
         dest = os.path.join(user_dir, dotfile)
-        if not os.path.isfile(dest):
-            os.symlink(source, dest)
+        if os.path.isfile(dest):
+            os.remove(dest)
+        os.symlink(source, dest)
 
 
 if __name__ == '__main__':
