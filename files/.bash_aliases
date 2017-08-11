@@ -57,8 +57,8 @@ alias cev="source change_env_var"
 # edit onx IP
 alias ed_ip="source edit_onx_ip"
 
-# svn quick status
-alias st="svn-status"
+# git quick status
+alias st="git status"
 
 # svn quick diff
 alias sd="svn_colordiff"
