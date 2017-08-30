@@ -105,24 +105,22 @@ if [ -f ~/local/.bashrc ]; then
     . ~/local/.bashrc
 fi
 
-# Environment variable definitions
-if [ -f ~/.bash_variables ]; then
-    . ~/.bash_variables
-fi
+function get_dotfile(){
 
-# function defs
-if [ -f ~/.bash_functions ]; then
-    . ~/.bash_functions
-fi
+    filename=$1
 
-# Alias definitions.
-# You may want to put all your additions into a separate file like
-# ~/.bash_aliases, instead of adding them here directly.
-# See /usr/share/doc/bash-doc/examples in the bash-doc package.
+    if [ -f ~/$filename ]; then
+        . ~/$filename
+    fi
+    if [ -f ~/local/dotfiles/$filename ]; then
+        . ~/local/dotfiles/$filename
+    fi
+}
 
-if [ -f ~/.bash_aliases ]; then
-    . ~/.bash_aliases
-fi
+
+get_dotfile ".bash_variables"
+get_dotfile ".bash_functions"
+get_dotfile ".bash_aliases"
 
 # enable programmable completion features (you don't need to enable
 # this, if it's already enabled in /etc/bash.bashrc and /etc/profile
