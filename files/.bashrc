@@ -8,13 +8,12 @@ case $- in
       *) return;;
 esac
 
-# add user bin to PATH
+# Add user directories to PATH
+# Note that $HOME/local precedes $HOME/bin. if ~/bin is tracked
+# by VCS, anything in it can be overridden by a file in ~/local/bin
 export PATH="$HOME/bin:$PATH"
-
-# add .local bin to PATH
 export PATH="$HOME/.local/bin:$PATH"
-
-export PROMPT_COMMAND='PS1="$(~/bin/short_pwd.py)"'
+export PATH="$HOME/local/bin:$PATH"
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
@@ -131,7 +130,5 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# set default editor to sublime text
-
-export VISUAL=subl
-export EDITOR="$VISUAL"
+# set prompt command from file
+export PROMPT_COMMAND='PS1="$(short_pwd.py)"'
