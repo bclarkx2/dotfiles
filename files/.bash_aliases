@@ -25,18 +25,6 @@ alias go="source go"
 # open cpp and h files
 alias bopen="cpp_both_open.py"
 
-# onx environment
-alias set_env="source /home/brian/MyONX/env_scripts/set_gemini_env_vars.sh"
-
-# onxPush
-alias push="~/MyONX/build_scripts/onxPush.sh"
-
-# onx test commit
-alias onxTestCommit="bash $onx_test_commit"
-
-# onx ssh
-alias ossh="onxssh"
-
 # pylint
 alias pylint3="/usr/local/bin/pylint"
 
@@ -54,11 +42,19 @@ alias utest="li 40 && ./test"
 # change env var
 alias cev="source change_env_var"
 
-# edit onx IP
-alias ed_ip="source edit_onx_ip"
+
+##########
+# GIT
+##########
 
 # git quick status
 alias st="git status"
+alias aa="git add ."
+alias cm="git commit"
+alias pull="git pull"
+alias push="git push"
+alias gd="git diff"
+
 
 # svn quick diff
 alias sd="svn_colordiff"
