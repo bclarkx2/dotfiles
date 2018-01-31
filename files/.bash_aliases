@@ -9,10 +9,12 @@ alias rm=trash-put
 alias sl="new_sl"
 
 # command to open a new terminal setup
-alias lt="load-terminal && exit"
+alias lt="load-terminal"
 
 # simple to clear terminal
 alias c="clear"
+
+alias clipboard="xclip -sel clip"
 
 
 # Script aliases
