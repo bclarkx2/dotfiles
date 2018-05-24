@@ -100,4 +100,4 @@ fi
 export PROMPT_COMMAND='PS1="$(short_pwd.py)" ; pwd > /tmp/where'
 
 # on opening, cd to last directory (if exists)
-cd $(cat /tmp/where)
+[[ -f /tmp/where ]] && cd $(cat /tmp/where)
