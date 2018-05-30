@@ -60,3 +60,12 @@ alias gd="git diff"
 
 # svn quick diff
 alias sd="svn_colordiff"
+
+
+##########
+# Pizzapi
+##########
+
+# quick pizzapi ssh access
+alias pp="pizzapi ssh pi"
+alias pps="pizzapi sftp"
