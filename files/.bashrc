@@ -101,3 +101,6 @@ export PROMPT_COMMAND='PS1="$(short_pwd.py)" ; pwd > /tmp/where'
 
 # on opening, cd to last directory (if exists)
 [[ -f /tmp/where ]] && cd $(cat /tmp/where)
+
+# run keychain on each window, to make sure
+eval $(keychain --eval --agents ssh id_rsa)
