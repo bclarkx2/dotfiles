@@ -1,0 +1,7 @@
+log_loc /home/brian/.backupd/log
+backup echo "<external update cmd output>" >> /home/brian/.backupd/log 2>&1
+syslogging 1
+incident_limit 10
+targets 2
+target /home/brian/.backupd/test1
+target /home/brian/.backupd/test2

@@ -1,0 +1,3 @@
+#! /usr/bin/env bash
+
+tail -n 24 ~/.duplicity/log

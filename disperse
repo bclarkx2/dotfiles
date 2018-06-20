@@ -1,0 +1,7 @@
+#!/bin/bash
+# disperse all using stow
+
+find *                          \
+     -maxdepth 0                \
+     -type d                    \
+     -exec stow "$@" {} +
