@@ -104,3 +104,6 @@ export PROMPT_COMMAND='PS1="$(short_pwd.py)" ; pwd > /tmp/where'
 
 # run keychain on each window, to make sure
 eval $(keychain --eval --agents ssh id_rsa)
+
+# Suppress accesibility warnings for GNOME apps
+export NO_AT_BRIDGE=1
