@@ -24,3 +24,6 @@ PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 if [[ -f ${HOME}/.anacron/etc/anacrontab ]] ; then
     /usr/sbin/anacron -s -t ${HOME}/.anacron/etc/anacrontab -S ${HOME}/.anacron/spool
 fi
+
+# force MS style numpad use
+setxkbmap -option numpad:microsoft
