@@ -1,5 +1,5 @@
 # default editor
-export VISUAL="vim"
+export VISUAL="gedit"
 export EDITOR="vim"
 
 export gen_test="gen_test"
