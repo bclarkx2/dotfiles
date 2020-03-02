@@ -22,7 +22,7 @@ alias clipboard="xclip -sel clip"
 # easy directory navigation change
 # source is required so it can change the working directory of
 # parent shell
-alias go="source go"
+alias goto="source goto"
 
 # open cpp and h files
 alias bopen="cpp_both_open.py"
