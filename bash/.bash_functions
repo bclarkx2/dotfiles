@@ -8,7 +8,7 @@ function _go_complete_()
     COMPREPLY=($(go.py --complete "$line" | tr -d "'[]," ))
 }
 
-complete -F _go_complete_ go
+complete -F _go_complete_ goto
 
 function git_help(){
     echo "st: git status"
