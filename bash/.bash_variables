@@ -1,14 +1,9 @@
+#!/usr/bin/env bash
+
 # default editor
 export VISUAL="gedit"
 export EDITOR="vim"
 
-export gen_test="gen_test"
-
+# clarknet.info
 export CLARK_IP="100.36.157.232"
 export CLARK_HOST="clarknet.info"
-
-export GRIVE_OAUTH_JSON="$HOME/.config/grive/grive.json"
-export GRIVE_LOG="$HOME/.grive_log"
-
-# golang workspace directory
-export GOPATH="$HOME/projects/go" 

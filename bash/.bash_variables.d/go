@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+# golang workspace directory
+export GOPATH="$HOME/projects/go"
+

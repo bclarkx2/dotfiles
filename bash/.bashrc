@@ -68,18 +68,39 @@ if [ -f ~/local/dotfiles/.bashrc ]; then
     . ~/local/dotfiles/.bashrc
 fi
 
-function get_dotfile(){
+function get_dotfile_subdirs(){
 
-    filename=$1
+    path="$1"
 
-    if [ -f ~/$filename ]; then
-        . ~/$filename
-    fi
-    if [ -f ~/local/dotfiles/$filename ]; then
-        . ~/local/dotfiles/$filename
+   if [[ -d "$path" && ! -z "$(ls -A "$path")" ]] ; then
+        for file in $path/* ;
+        do
+            source $file
+        done
     fi
 }
 
+function get_dotfile(){
+
+    filename="$1"
+    dirname="${filename}.d"
+
+    # First source the actual file
+    if [ -f $HOME/$filename ]; then
+        source $HOME/$filename
+    fi
+
+    # Next source any subdirs
+    get_dotfile_subdirs "$HOME/$dirname"
+
+    # Now source the local override
+    if [ -f $HOME/local/dotfiles/$filename ]; then
+        source $HOME/local/dotfiles/$filename
+    fi
+
+    # And the local subdirs
+    get_dotfile_subdirs "$HOME/local/dotfiles/$dirname"
+}
 
 get_dotfile ".bash_variables"
 get_dotfile ".bash_functions"
