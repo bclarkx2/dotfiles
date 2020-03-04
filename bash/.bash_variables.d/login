@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+
+# used to set 'expected' usr+host for pwd. Should be overriden in ~/local/dotfiles
+# here, they will be set to my 'main' computer
+export MY_USERNAME="brian"
+export MY_HOSTNAME="muffin"
