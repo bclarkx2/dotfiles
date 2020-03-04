@@ -63,16 +63,11 @@ alias l='ls -CF'
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
-# if local version exists, also source that
-if [ -f ~/local/dotfiles/.bashrc ]; then
-    . ~/local/dotfiles/.bashrc
-fi
-
 function get_dotfile_subdirs(){
 
     path="$1"
 
-   if [[ -d "$path" && ! -z "$(ls -A "$path")" ]] ; then
+    if [[ -d "$path" && ! -z "$(ls -A "$path")" ]] ; then
         for file in $path/* ;
         do
             source $file
@@ -84,9 +79,10 @@ function get_dotfile(){
 
     filename="$1"
     dirname="${filename}.d"
+    skip_current="$2"
 
     # First source the actual file
-    if [ -f $HOME/$filename ]; then
+    if [[ -f $HOME/$filename && "$skip_current" != "true" ]]; then
         source $HOME/$filename
     fi
 
@@ -102,6 +98,7 @@ function get_dotfile(){
     get_dotfile_subdirs "$HOME/local/dotfiles/$dirname"
 }
 
+get_dotfile ".bashrc" true
 get_dotfile ".bash_variables"
 get_dotfile ".bash_functions"
 get_dotfile ".bash_aliases"
