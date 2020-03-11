@@ -6,6 +6,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'SirVer/ultisnips'
+Plug 'ctrlpvim/ctrlp.vim'
 
 call plug#end()
 
@@ -15,11 +16,55 @@ let mapleader=","
 
 
 """ Text editing
-"Autoindent new lines
+"" Autoindent new lines
 set autoindent
 
-"Save file on calling :make
+"" Save file on calling :make
 set autowrite
+
+"" Reload automatically on disk change
+set autoread
+
+"" Autocomplete
+set completeopt=longest,menuone
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+inoremap <expr> <C-n> pumvisible() ? '<C-n>' : '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+
+
+""" Navigation
+"" Menu
+set wildmenu
+set wildmode=longest:full,full
+
+"" Split: open things below and right
+set splitbelow
+set splitright
+
+"" Search: center on cursor
+noremap n nzz
+noremap N Nzz
+noremap gg ggzz
+noremap G Gzz
+
+
+
+""" Config
+"" .vimrc: edit
+command! Ev :e $MYVIMRC
+
+"" .vimrc: autoload changes
+augroup myvimrchooks
+    au!
+    autocmd bufwritepost .vimrc source ~/.vimrc
+augroup END
+
+
+""" Display
+set display+=lastline
+set showmatch
+set cursorline
+set scrolloff=5
+
 
 
 """ Shortcuts
@@ -51,3 +96,13 @@ au FileType go nmap <leader>d <Plug>(go-doc-browser)
 au FileType go nmap <leader>ct <Plug>(go-coverage-toggle)
 au FileType go nmap <leader>cb <Plug>(go-coverage-browser)
 au FileType go nmap <leader>a <Plug>(go-alternate-edit)
+au FileType go nmap <leader>i <Plug>(go-info)
+au FileType go nmap <leader>gd <Plug>(go-def)
+au FileType go nmap <leader>gl <Plug>(go-decls)
+
+command! Gd :GoDef
+command! Gl :GoDecls
+command! Gi :GoInfo
+
+""" jq
+command! -nargs=1 Jq :% !jq <q-args>
