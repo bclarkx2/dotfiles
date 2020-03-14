@@ -115,7 +115,7 @@ if ! shopt -oq posix; then
 fi
 
 # set prompt command from file
-export PROMPT_COMMAND='PS1="$(short_pwd.py)" ; pwd > /tmp/where'
+export PROMPT_COMMAND='PS1="$(pwd.py)" ; pwd > /tmp/where'
 
 # on opening, cd to last directory (if exists)
 [[ -f /tmp/where ]] && cd $(cat /tmp/where)
