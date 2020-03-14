@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # default editor
-export VISUAL="gedit"
+export VISUAL="vim"
 export EDITOR="vim"
 
 # clarknet.info
