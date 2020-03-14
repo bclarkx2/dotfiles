@@ -52,6 +52,10 @@ noremap G Gzz
 "" Search: highlight
 set hlsearch
 
+"" Scroll: arrow keys
+map <C-S-Up> <C-Y>
+map <C-S-Down> <C-E>
+
 
 
 """ Config
