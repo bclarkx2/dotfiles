@@ -7,6 +7,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'SirVer/ultisnips'
 Plug 'ctrlpvim/ctrlp.vim'
+Plug 'preservim/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 
 call plug#end()
 
@@ -47,6 +49,10 @@ noremap gg ggzz
 noremap G Gzz
 
 
+"" Search: highlight
+set hlsearch
+
+
 
 """ Config
 "" .vimrc: edit
@@ -63,8 +69,8 @@ augroup END
 set display+=lastline
 set showmatch
 set cursorline
-set scrolloff=5
-
+set scrolloff=12
+set number
 
 
 """ Shortcuts
@@ -90,15 +96,15 @@ let g:go_highlight_extra_types = 1
 au FileType go nmap <leader>b <Plug>(go-build)
 au FileType go nmap <leader>r <Plug>(go-run)
 au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap <leader>l <Plug>(go-metalinter)
-au FileType go nmap <leader>i <Plug>(go-install)
-au FileType go nmap <leader>d <Plug>(go-doc-browser)
+au FileType go nmap <leader>ml <Plug>(go-metalinter)
+au FileType go nmap <leader>gd <Plug>(go-doc-browser)
 au FileType go nmap <leader>ct <Plug>(go-coverage-toggle)
 au FileType go nmap <leader>cb <Plug>(go-coverage-browser)
 au FileType go nmap <leader>a <Plug>(go-alternate-edit)
 au FileType go nmap <leader>i <Plug>(go-info)
-au FileType go nmap <leader>gd <Plug>(go-def)
-au FileType go nmap <leader>gl <Plug>(go-decls)
+au FileType go nmap <leader>d <Plug>(go-def)
+au FileType go nmap <leader>l <Plug>(go-decls)
+au FileType go nmap <leader>f <Plug>(go-fmt)
 
 command! Gd :GoDef
 command! Gl :GoDecls
@@ -106,3 +112,12 @@ command! Gi :GoInfo
 
 """ jq
 command! -nargs=1 Jq :% !jq <q-args>
+
+
+""" NERDtree
+"" Start NERDtree automatically on directories
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+
+"" Bind command to toggle tree
+map <C-t> :NERDTreeToggle<CR>
