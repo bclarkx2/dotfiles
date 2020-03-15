@@ -1,25 +1,32 @@
 " VIM config file
 
-
 """ Plugins
 call plug#begin('~/.vim/plugged')
 
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 Plug 'SirVer/ultisnips'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'preservim/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'tmux-plugins/vim-tmux-focus-events'
+Plug 'tmux-plugins/vim-tmux'
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 
 call plug#end()
-
 
 """ Variables
 let mapleader=","
 
 
+""" General
+"" Use a terminal type that tmux understands
+set term=xterm-256color
+
+
 """ Text editing
 "" Autoindent new lines
 set autoindent
+set smartindent
 
 "" Save file on calling :make
 set autowrite
@@ -31,6 +38,15 @@ set autoread
 set completeopt=longest,menuone
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
 inoremap <expr> <C-n> pumvisible() ? '<C-n>' : '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+
+"" Copy/paste
+set clipboard=unnamed
+autocmd VimLeave * call system('echo ' . shellescape(getreg('+')) . ' | xclip -selection clipboard')
+
+
+""" Commands
+"" Show commands
+set incsearch
 
 
 """ Navigation
@@ -56,6 +72,8 @@ set hlsearch
 map <C-S-Up> <C-Y>
 map <C-S-Down> <C-E>
 
+"" Mouse
+set mouse=a
 
 
 """ Config
@@ -78,6 +96,8 @@ set number
 
 
 """ Shortcuts
+"" hide highlights
+nnoremap <silent> <return> :let @/=""<return><return>
 
 
 """ Go
@@ -125,3 +145,8 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 
 "" Bind command to toggle tree
 map <C-t> :NERDTreeToggle<CR>
+
+
+""" GitGutter
+"" Refresh faster
+set updatetime=10
