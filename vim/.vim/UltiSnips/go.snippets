@@ -1,0 +1,13 @@
+snippet iferr "Common error handling pattern" b
+if ${1:val}, err := ${2:func} ; err != nil {
+	${3}
+}
+endsnippet
+
+snippet printv "Print a variable to stdout" b
+fmt.Printf("${1:var}: %${2:s}", $1)
+endsnippet
+
+snippet quote "Put in quotes"
+"${1:${VISUAL:text}}"
+endsnippet

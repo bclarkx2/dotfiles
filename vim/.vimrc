@@ -3,15 +3,31 @@
 """ Plugins
 call plug#begin('~/.vim/plugged')
 
-Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+"" Snippets
+Plug 'ervandew/supertab'
+Plug 'ycm-core/YouCompleteMe'
 Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+
+"" Navigation
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'preservim/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+
+"" Tmux
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'tmux-plugins/vim-tmux'
+Plug 'tpope/vim-obsession'
+
+"" Git
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
+
+"" Colorschemes
+Plug 'gilgigilgil/anderson.vim'
+Plug 'lifepillar/vim-solarized8'
+
+"" Languages
+Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 call plug#end()
 
@@ -29,19 +45,34 @@ set term=xterm-256color
 set autoindent
 set smartindent
 
-"" Save file on calling :make
-set autowrite
-
-"" Reload automatically on disk change
-set autoread
+"" Read/write
+set autowrite 	" Save file on calling :make
+set autoread 	" Reload automatically on disk change
 
 "" Autocomplete
-set completeopt=longest,menuone
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
-inoremap <expr> <C-n> pumvisible() ? '<C-n>' : '<C-n><C-r>=pumvisible() ? "\<lt>Down>" : ""<CR>'
+set completeopt=menuone
+let g:ycm_filetype_blacklist = {
+	\ 'vimscript': 1,
+	\}
+
+"" SuperTab
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+"" YCM
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:ycm_key_list_stop_completion = ['<C-y>', '<CR>']
+let g:ycm_enable_diagnostic_highlighting = 0
+
+"" UltiSnips
+let g:UltiSnipsExpandTrigger = "<Insert>"
+let g:UltiSnipsJumpForwardTrigger = "<Tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<S-Tab>"
+let g:UltiSnipsEditSplit = "context"
+command! Snip :UltiSnipsEdit
 
 "" Copy/paste
-set clipboard=unnamed
+set clipboard=unnamed,unnamedplus 	" Past to both 'primary' and 'clipboard' linux clipboard buffers
 autocmd VimLeave * call system('echo ' . shellescape(getreg('+')) . ' | xclip -selection clipboard')
 
 
@@ -65,9 +96,12 @@ noremap N Nzz
 noremap gg ggzz
 noremap G Gzz
 
-
 "" Search: highlight
-set hlsearch
+set hlsearch	" show highlight on search
+
+"" Search: case
+set ignorecase	" ignore case
+set smartcase 	" ... unless search term starts with upper case
 
 "" Scroll: arrow keys
 map <C-S-Up> <C-Y>
@@ -78,8 +112,9 @@ set mouse=a
 
 
 """ Config
-"" .vimrc: edit
+"" .vimrc: edit and load
 command! Ev :e $MYVIMRC
+command! Lv :source $MYVIMRC
 
 "" .vimrc: autoload changes
 augroup myvimrchooks
@@ -90,10 +125,12 @@ augroup END
 
 """ Display
 set display+=lastline
-set showmatch
-set cursorline
-set scrolloff=12
-set number
+set cursorline 		" underline current line
+set scrolloff=12	" start scrolling when there are this many lines remaining on the screen
+set number		" show line numbers
+
+"" Color scheme
+syntax on
 
 
 """ Shortcuts
@@ -116,24 +153,49 @@ let g:go_highlight_types = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_contraints = 1
 let g:go_highlight_extra_types = 1
+let g:go_doc_window_popup_window = 1
 
-"" Go: Simple Mappings
-au FileType go nmap <leader>b <Plug>(go-build)
-au FileType go nmap <leader>r <Plug>(go-run)
-au FileType go nmap <leader>t <Plug>(go-test)
-au FileType go nmap <leader>ml <Plug>(go-metalinter)
-au FileType go nmap <leader>gd <Plug>(go-doc-browser)
-au FileType go nmap <leader>ct <Plug>(go-coverage-toggle)
-au FileType go nmap <leader>cb <Plug>(go-coverage-browser)
-au FileType go nmap <leader>a <Plug>(go-alternate-edit)
-au FileType go nmap <leader>i <Plug>(go-info)
-au FileType go nmap <leader>d <Plug>(go-def)
-au FileType go nmap <leader>l <Plug>(go-decls)
-au FileType go nmap <leader>f <Plug>(go-fmt)
+"" Go: Functions
+" build_go_files is a custom function that builds or compiles the test file.
+" It calls :GoBuild if its a Go file, or :GoTestCompile if it's a test file
+function! s:build_go_files()
+	let l:file = expand('%')
+	if l:file =~# '^\f\+_test\.go$'
+		call go#test#Test(0, 1)
+		elseif l:file =~# '^\f\+\.go$'
+		call go#cmd#Build(0)
+	endif
+endfunction
 
-command! Gd :GoDef
-command! Gl :GoDecls
-command! Gi :GoInfo
+"" Go: Mappings
+augroup go
+	autocmd!
+	
+	" Show by default 4 spaces for a tab
+	au BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
+	
+	" Run/build
+	au FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
+	au FileType go nmap <leader>r <Plug>(go-run)
+	au FileType go nmap <leader>t <Plug>(go-test)
+	
+	" Show info
+	au FileType go nmap <leader>i <Plug>(go-info)
+	au FileType go nmap <leader>l <Plug>(go-decls)
+	au FileType go nmap <leader>gd <Plug>(go-doc)
+	au FileType go nmap <leader>d <Plug>(go-def)
+	au FileType go nmap <leader>dv <Plug>(go-def-vertical)
+	au FileType go nmap <leader>ds <Plug>(go-def-split)
+	
+	" Format
+	au FileType go nmap <leader>ml <Plug>(go-metalinter)
+	
+	" Testing info
+	au FileType go nmap <leader>ct <Plug>(go-coverage-toggle)
+	au FileType go nmap <leader>cb <Plug>(go-coverage-browser)
+
+augroup END
+
 
 """ jq
 command! -nargs=1 Jq :% !jq <q-args>
@@ -151,3 +213,6 @@ map <C-t> :NERDTreeToggle<CR>
 """ GitGutter
 "" Refresh faster
 set updatetime=10
+
+"" Always show sign column
+set signcolumn=yes
