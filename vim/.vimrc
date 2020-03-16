@@ -31,13 +31,13 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
 call plug#end()
 
+
 """ Variables
 let mapleader=","
 
 
 """ General
-"" Use a terminal type that tmux understands
-set term=xterm-256color
+set term=xterm-256color  " Use a terminal type that tmux understands
 
 
 """ Text editing
@@ -49,27 +49,6 @@ set smartindent
 set autowrite 	" Save file on calling :make
 set autoread 	" Reload automatically on disk change
 
-"" Autocomplete
-set completeopt=menuone
-let g:ycm_filetype_blacklist = {
-	\ 'vimscript': 1,
-	\}
-
-"" SuperTab
-let g:SuperTabDefaultCompletionType = '<C-n>'
-
-"" YCM
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-let g:ycm_key_list_stop_completion = ['<C-y>', '<CR>']
-let g:ycm_enable_diagnostic_highlighting = 0
-
-"" UltiSnips
-let g:UltiSnipsExpandTrigger = "<Insert>"
-let g:UltiSnipsJumpForwardTrigger = "<Tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<S-Tab>"
-let g:UltiSnipsEditSplit = "context"
-command! Snip :UltiSnipsEdit
 
 "" Copy/paste
 set clipboard=unnamed,unnamedplus 	" Past to both 'primary' and 'clipboard' linux clipboard buffers
@@ -77,8 +56,7 @@ autocmd VimLeave * call system('echo ' . shellescape(getreg('+')) . ' | xclip -s
 
 
 """ Commands
-"" Show commands
-set incsearch
+set incsearch  " Show search results as you type the query
 
 
 """ Navigation
@@ -126,11 +104,12 @@ augroup END
 """ Display
 set display+=lastline
 set cursorline 		" underline current line
-set scrolloff=12	" start scrolling when there are this many lines remaining on the screen
+set scrolloff=12	" start scrolling when there are this many lines remaining on screen
 set number		" show line numbers
 
 "" Color scheme
-syntax on
+syntax on 		" enable syntax highlighting
+"colorscheme anderson 	" use a vim colorscheme
 
 
 """ Shortcuts
@@ -149,7 +128,7 @@ let g:go_highlight_functions = 1
 " let g:go_highlight_function_arguments = 1
 let g:go_highlight_function_calls = 1
 let g:go_highlight_types = 1
-" let g:go_highlight_fields = 1
+let g:go_highlight_fields = 1
 let g:go_highlight_operators = 1
 let g:go_highlight_build_contraints = 1
 let g:go_highlight_extra_types = 1
@@ -198,6 +177,7 @@ augroup END
 
 
 """ jq
+"" Use jq inside vim on text in current buffer
 command! -nargs=1 Jq :% !jq <q-args>
 
 
@@ -206,13 +186,33 @@ command! -nargs=1 Jq :% !jq <q-args>
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
 
-"" Bind command to toggle tree
+" Bind command to toggle tree
 map <C-t> :NERDTreeToggle<CR>
 
 
 """ GitGutter
-"" Refresh faster
-set updatetime=10
+set updatetime=10 	" Refresh faster
+set signcolumn=yes 	" Always show sign column to avoid screen jump
 
-"" Always show sign column
-set signcolumn=yes
+
+""" SuperTab
+let g:SuperTabDefaultCompletionType = '<C-n>'  " This allows using both YCM and UltiSnips
+
+
+""" YCM
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']  " Navigate down menu
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']  " Navigate up menu
+let g:ycm_key_list_stop_completion = ['<C-y>', '<CR>'] 	    " Select option
+let g:ycm_enable_diagnostic_highlighting = 0 		    " Remove highlighting
+let g:ycm_filetype_blacklist = {
+	\ 'vimscript': 1,
+	\}
+
+
+"" UltiSnips
+let g:UltiSnipsExpandTrigger = "<Insert>" 	" Expand a snippet
+let g:UltiSnipsJumpForwardTrigger = "<Tab>" 	" Move forward through tabstops
+let g:UltiSnipsJumpBackwardTrigger = "<S-Tab>" 	" Move backward through tabstops
+let g:UltiSnipsEditSplit = "context" 		" Open snip edit vert or horizontal
+command! Snip :UltiSnipsEdit 			" Rename snip edit command
+
