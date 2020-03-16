@@ -63,6 +63,18 @@ alias l='ls -CF'
 #   sleep 10; alert
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
+# enable programmable completion features (you don't need to enable
+# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
+# sources /etc/bash.bashrc).
+if ! shopt -oq posix; then
+  if [ -f /usr/share/bash-completion/bash_completion ]; then
+    . /usr/share/bash-completion/bash_completion
+  elif [ -f /etc/bash_completion ]; then
+    . /etc/bash_completion
+  fi
+fi
+
+# Source all dotfiles in a .bash_*.d/ subdirectory
 function get_dotfile_subdirs(){
 
     path="$1"
@@ -75,6 +87,8 @@ function get_dotfile_subdirs(){
     fi
 }
 
+# For a particular type of dotfile, source dotfiles from all
+# levels of the hierarchy according to the pattern below.
 function get_dotfile(){
 
     filename="$1"
@@ -98,21 +112,12 @@ function get_dotfile(){
     get_dotfile_subdirs "$HOME/local/dotfiles/$dirname"
 }
 
+# Source all other types of dotfile, including local overrides
 get_dotfile ".bashrc" true
 get_dotfile ".bash_variables"
 get_dotfile ".bash_functions"
 get_dotfile ".bash_aliases"
 
-# enable programmable completion features (you don't need to enable
-# this, if it's already enabled in /etc/bash.bashrc and /etc/profile
-# sources /etc/bash.bashrc).
-if ! shopt -oq posix; then
-  if [ -f /usr/share/bash-completion/bash_completion ]; then
-    . /usr/share/bash-completion/bash_completion
-  elif [ -f /etc/bash_completion ]; then
-    . /etc/bash_completion
-  fi
-fi
 
 # set prompt command from file
 export PROMPT_COMMAND='PS1="$(pwd.py)" ; pwd > /tmp/where'
@@ -120,8 +125,3 @@ export PROMPT_COMMAND='PS1="$(pwd.py)" ; pwd > /tmp/where'
 # on opening, cd to last directory (if exists)
 [[ -f /tmp/where ]] && cd $(cat /tmp/where)
 
-# run keychain on each window, to make sure
-# eval $(keychain --eval --agents ssh id_rsa)
-
-# Suppress accesibility warnings for GNOME apps
-export NO_AT_BRIDGE=1
