@@ -46,17 +46,8 @@ alias cev="source change_env_var"
 
 
 ##########
-# GIT
+# SVN
 ##########
-
-# git quick status
-alias st="git status"
-alias aa="git add ."
-alias cm="git commit"
-alias pull="git pull"
-alias push="git push"
-alias gd="git diff"
-
 
 # svn quick diff
 alias sd="svn_colordiff"
