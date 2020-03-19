@@ -26,8 +26,11 @@ Plug 'airblade/vim-gitgutter'
 Plug 'gilgigilgil/anderson.vim'
 Plug 'lifepillar/vim-solarized8'
 
-"" Languages
+"" Languages: Go
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
+
+"" Languages: Python
+Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 
 call plug#end()
 
@@ -175,6 +178,17 @@ augroup go
 
 augroup END
 
+""" Python
+"" Python: settings
+let g:pymode_lint_on_fly = 1
+let g:pymode_lint_checkers = ['pylint']
+
+
+"" Python: mappings
+let g:pymode_doc_bind = '<leader>gd'
+
+
+
 
 """ jq
 "" Use jq inside vim on text in current buffer
@@ -207,6 +221,10 @@ let g:ycm_enable_diagnostic_highlighting = 0 		    " Remove highlighting
 let g:ycm_filetype_blacklist = {
 	\ 'vimscript': 1,
 	\}
+highlight YcmErrorLine guibg=#3f0000
+highlight YcmErrorSection guibg=#3f0000
+highlight YcmWarningLine guibg=#3f0000
+highlight YcmWarningSection guibg=#3f0000
 
 
 "" UltiSnips
