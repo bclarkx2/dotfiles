@@ -1,14 +1,14 @@
 
-function _go_complete_()
+function _goto_complete_()
 {
     local cmd="${1##*/}"
     local word=${COMP_WORDS[COMP_CWORD]}
     local line=${COMP_LINE}
 
-    COMPREPLY=($(go.py --complete "$line" | tr -d "'[]," ))
+    COMPREPLY=($(goto.py --complete "$line" | tr -d "'[]," ))
 }
 
-complete -F _go_complete_ goto
+complete -F _goto_complete_ goto
 
 function git_help(){
     echo "st: git status"
