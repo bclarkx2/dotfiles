@@ -121,12 +121,23 @@ syntax on 		" enable syntax highlighting
 nnoremap <silent> <return> :let @/=""<return><return>
 
 
+""" Shortline
+set laststatus=2
+set statusline=%f         		 " Path to the file
+set statusline+=\ -\      		 " Separator
+set statusline+=FileType: 		 " Label
+set statusline+=%y        		 " Filetype of the file
+set statusline+=\ -\      		 " Separator
+set statusline+=%{FugitiveStatusline()}  " Git status
+
 """ Go
 "" Go: Config
 let g:go_fmt_command = "goimports"
 let g:go_addtags_transform="camelcase"
 let g:go_def_mode='gopls'
 let g:go_info_mode='gopls'
+let g:go_referrers_mode='gopls'
+let g:go_rename_command = 'gopls'
 " let g:go_metalinter_autosave = 1
 let g:go_highlight_functions = 1
 " let g:go_highlight_function_arguments = 1
@@ -137,6 +148,10 @@ let g:go_highlight_operators = 1
 let g:go_highlight_build_contraints = 1
 let g:go_highlight_extra_types = 1
 let g:go_doc_window_popup_window = 1
+let g:go_auto_sameids = 1 			" Auto-highlight identifier
+let g:go_updatetime = 100 			" Refresh for sameids
+let g:go_list_type = "quickfix" 		" Always use quickfix
+let g:go_debug = [] 				" Log debug output
 
 "" Go: Functions
 " build_go_files is a custom function that builds or compiles the test file.
@@ -161,7 +176,13 @@ augroup go
 	au FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
 	au FileType go nmap <leader>r <Plug>(go-run)
 	au FileType go nmap <leader>t <Plug>(go-test)
-	
+
+	" Navigate
+	au FileType go nmap <leader>a <Plug>(go-alternate-edit)
+
+	" Edit
+	au FileType go nmap <leader>r <Plug>(go-rename)
+
 	" Show info
 	au FileType go nmap <leader>i <Plug>(go-info)
 	au FileType go nmap <leader>l <Plug>(go-decls)
@@ -169,6 +190,8 @@ augroup go
 	au FileType go nmap <leader>d <Plug>(go-def)
 	au FileType go nmap <leader>dv <Plug>(go-def-vertical)
 	au FileType go nmap <leader>ds <Plug>(go-def-split)
+	au FileType go nmap <leader>dt <Plug>(go-def-type)
+	au FileType go nmap <leader>ref <Plug>(go-referrers)
 	
 	" Format
 	au FileType go nmap <leader>ml <Plug>(go-metalinter)
@@ -215,6 +238,7 @@ let g:SuperTabDefaultCompletionType = '<C-n>'  " This allows using both YCM and 
 
 
 """ YCM
+set completeopt=menuone
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']  " Navigate down menu
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']  " Navigate up menu
 let g:ycm_key_list_stop_completion = ['<C-y>', '<CR>'] 	    " Select option
@@ -222,13 +246,13 @@ let g:ycm_enable_diagnostic_highlighting = 0 		    " Remove highlighting
 let g:ycm_filetype_blacklist = {
 	\ 'vimscript': 1,
 	\}
-highlight YcmErrorLine guibg=#3f0000
-highlight YcmErrorSection guibg=#3f0000
-highlight YcmWarningLine guibg=#3f0000
-highlight YcmWarningSection guibg=#3f0000
+highlight YcmErrorLine guibg=#3f3f00
+highlight YcmErrorSection guibg=#3f3f00
+highlight YcmWarningLine guibg=#3f003f
+highlight YcmWarningSection guibg=#3f003f
 
 
-"" UltiSnips
+""" UltiSnips
 let g:UltiSnipsExpandTrigger = "<Insert>" 	" Expand a snippet
 let g:UltiSnipsJumpForwardTrigger = "<Tab>" 	" Move forward through tabstops
 let g:UltiSnipsJumpBackwardTrigger = "<S-Tab>" 	" Move backward through tabstops
