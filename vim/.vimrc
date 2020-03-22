@@ -203,6 +203,7 @@ augroup go
 
 augroup END
 
+
 """ Python
 "" Python: settings
 let g:pymode_lint_on_fly = 1
@@ -211,8 +212,6 @@ let g:pymode_lint_checkers = ['pylint']
 
 "" Python: mappings
 let g:pymode_doc_bind = '<leader>gd'
-
-
 
 
 """ jq
