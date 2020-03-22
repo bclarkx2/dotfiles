@@ -130,6 +130,7 @@ set statusline+=%y        		 " Filetype of the file
 set statusline+=\ -\      		 " Separator
 set statusline+=%{FugitiveStatusline()}  " Git status
 
+
 """ Go
 "" Go: Config
 let g:go_fmt_command = "goimports"
