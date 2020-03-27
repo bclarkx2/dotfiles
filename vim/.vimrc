@@ -257,10 +257,10 @@ let g:ycm_enable_diagnostic_highlighting = 0 		    " Remove highlighting
 let g:ycm_filetype_blacklist = {
 	\ 'vimscript': 1,
 	\}
-highlight YcmErrorLine guibg=#3f3f00
-highlight YcmErrorSection guibg=#3f3f00
-highlight YcmWarningLine guibg=#3f003f
-highlight YcmWarningSection guibg=#3f003f
+"highlight YcmErrorLine guibg=#3f3f00
+"highlight YcmErrorSection guibg=#3f3f00
+"highlight YcmWarningLine guibg=#3f003f
+"highlight YcmWarningSection guibg=#3f003f
 
 
 """ UltiSnips
@@ -269,4 +269,3 @@ let g:UltiSnipsJumpForwardTrigger = "<Tab>" 	" Move forward through tabstops
 let g:UltiSnipsJumpBackwardTrigger = "<S-Tab>" 	" Move backward through tabstops
 let g:UltiSnipsEditSplit = "context" 		" Open snip edit vert or horizontal
 command! Snip :UltiSnipsEdit 			" Rename snip edit command
-
