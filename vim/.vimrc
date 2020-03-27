@@ -221,6 +221,10 @@ let g:pymode_lint_checkers = ['pylint']
 let g:pymode_doc_bind = '<leader>gd'
 
 
+"" Markdown: settings
+autocmd FileType markdown :set tw=80 	" Don't go past 80 columns
+
+
 """ jq
 "" Use jq inside vim on text in current buffer
 command! -nargs=1 Jq :% !jq <q-args>
