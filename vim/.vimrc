@@ -121,14 +121,21 @@ syntax on 		" enable syntax highlighting
 nnoremap <silent> <return> :let @/=""<return><return>
 
 
-""" Shortline
+""" Statusline
 set laststatus=2
-set statusline=%f         		 " Path to the file
-set statusline+=\ -\      		 " Separator
-set statusline+=FileType: 		 " Label
-set statusline+=%y        		 " Filetype of the file
-set statusline+=\ -\      		 " Separator
-set statusline+=%{FugitiveStatusline()}  " Git status
+set statusline=%n  						" Buffer number
+set statusline+=\ 						" _
+set statusline+=%f         		 			" Path to the file
+set statusline+=%m 						" Modified flag
+set statusline+=%< 						" Truncate point
+set statusline+=%= 			 			" Right/left separator
+set statusline+=%y 						" File type
+set statusline+=\  						" _
+set statusline+=%{&fileencoding?&fileencoding:&encoding} 	" File encoding
+set statusline+=\[%{&fileformat}\] 				" File format
+set statusline+=%6l/%-5L 					" Current line / total lines
+set statusline+=\ 						" _
+set statusline+=%-3c 		 				" Column number
 
 
 """ Go
