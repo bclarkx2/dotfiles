@@ -13,6 +13,9 @@ Plug 'honza/vim-snippets'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'preservim/nerdtree'
 
+"" Editing
+Plug 'tpope/vim-surround'
+
 "" Tmux
 Plug 'tmux-plugins/vim-tmux-focus-events'
 Plug 'tmux-plugins/vim-tmux'
