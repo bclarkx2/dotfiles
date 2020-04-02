@@ -228,6 +228,13 @@ let g:pymode_doc_bind = '<leader>gd'
 autocmd FileType markdown :set tw=80 	" Don't go past 80 columns
 
 
+""" YAML
+autocmd FileType yaml setlocal foldmethod=indent 	" Fold on indents
+autocmd FileType yaml setlocal ts=2 sts=2 		" Use 2 space tabstop
+autocmd FileType yaml setlocal sw=2 			" Indent new lines 2 spaces
+autocmd FileType yaml setlocal expandtab 		" Don't allow tabs
+
+
 """ jq
 "" Use jq inside vim on text in current buffer
 command! -nargs=1 Jq :% !jq <q-args>
