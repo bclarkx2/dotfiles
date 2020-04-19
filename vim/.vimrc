@@ -15,6 +15,7 @@ Plug 'preservim/nerdtree'
 
 "" Editing
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
 
 "" Tmux
 Plug 'tmux-plugins/vim-tmux-focus-events'
@@ -226,6 +227,12 @@ let g:pymode_doc_bind = '<leader>gd'
 
 "" Markdown: settings
 autocmd FileType markdown :set tw=80 	" Don't go past 80 columns
+
+
+""" Bash
+autocmd FileType sh setlocal ts=2 sts=2 		" Use 2 space tabstop
+autocmd FileType sh setlocal sw=2 			" Indent new lines 2 spaces
+autocmd FileType sh setlocal expandtab 			" Don't allow tabs
 
 
 """ YAML
