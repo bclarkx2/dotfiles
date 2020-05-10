@@ -96,6 +96,12 @@ map <C-S-Down> <C-E>
 "" Mouse
 set mouse=a
 
+"" Re-opening: open file to previous location
+if has("autocmd")
+  au BufReadPost * if line("'\"") > 0 && line("'\"") <= line("$")
+    \| exe "normal! g`\"" | endif
+endif
+
 
 """ Config
 "" .vimrc: edit and load
