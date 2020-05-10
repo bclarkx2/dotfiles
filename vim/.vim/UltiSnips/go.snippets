@@ -11,3 +11,13 @@ endsnippet
 snippet quote "Put in quotes"
 "${1:${VISUAL:text}}"
 endsnippet
+
+snippet clidebug "Debug all command vars" b
+flag.VisitAll(func(f *flag.Flag) {
+	logger.Debug("Flag",
+		zap.String("name", f.Name),
+		zap.Any("value", f.Value),
+		zap.String("defvalue", f.DefValue),
+	)
+})
+endsnippet
