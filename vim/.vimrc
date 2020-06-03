@@ -68,6 +68,9 @@ set foldlevel=99  " Keep unfolded by default when opening file
 
 
 """ Commands
+"" Force write: use sudo to silently write to a readonly buffer (DANGER)
+cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
+
 set incsearch  " Show search results as you type the query
 
 
