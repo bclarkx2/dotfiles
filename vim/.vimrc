@@ -63,6 +63,10 @@ set clipboard=unnamed,unnamedplus 	" Past to both 'primary' and 'clipboard' linu
 autocmd VimLeave * call system('echo ' . shellescape(getreg('+')) . ' | xclip -selection clipboard')
 
 
+"" Folding
+set foldlevel=99  " Keep unfolded by default when opening file
+
+
 """ Commands
 set incsearch  " Show search results as you type the query
 
