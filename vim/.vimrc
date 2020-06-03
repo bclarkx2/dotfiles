@@ -252,6 +252,10 @@ autocmd FileType yaml setlocal sw=2 			" Indent new lines 2 spaces
 autocmd FileType yaml setlocal expandtab 		" Don't allow tabs
 
 
+""" JSON
+autocmd FileType json setlocal foldmethod=syntax 	" Fold on json syntax
+
+
 """ jq
 "" Use jq inside vim on text in current buffer
 command! -nargs=1 Jq :% !jq <q-args>
