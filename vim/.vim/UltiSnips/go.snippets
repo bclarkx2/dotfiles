@@ -21,3 +21,49 @@ flag.VisitAll(func(f *flag.Flag) {
 	)
 })
 endsnippet
+
+snippet errtype "Define a custom error type" b
+type ${1:MyNewError} struct {
+	${2:field} ${3:type}
+}
+
+func (e *$1) Error() string {
+	return fmt.Sprintf(
+		"${4:message}",
+		${5:value},
+	)
+}
+endsnippet
+
+snippet tdt "Table driven tests" b
+func Test${1:Method}(t *testing.T) {
+
+	testCases := []struct {
+		name string
+	}{
+		{
+			
+		},
+	}
+
+	for _, testCase := range testCases {
+		t.Run(testCase.name, func(t *testing.T) {
+
+		})
+	}
+}
+endsnippet
+
+snippet ae "Assert equal" b
+if !reflect.DeepEqual(${1:expected}, ${2:actual}) {
+	t.Errorf("${3:obj} expected:\n%#v\nActual:\n%#v\n",
+		$1, $2)
+}
+endsnippet
+
+snippet aem "Assert equal method" b
+if !reflect.DeepEqual(${1:expected}, ${2:actual}) {
+	t.Errorf("${3:method} ${3:obj} expected:\n%#v\nActual:\n%#v\n",
+		$3, $1, $2)
+}
+endsnippet
