@@ -109,6 +109,9 @@ if has("autocmd")
     \| exe "normal! g`\"" | endif
 endif
 
+"" When quitting buffer, try to close quickfix/location list
+autocmd QuitPre * execute "lclose|cclose"
+
 
 """ Config
 "" .vimrc: edit and load
@@ -177,6 +180,8 @@ let g:go_auto_sameids = 1 			" Auto-highlight identifier
 let g:go_updatetime = 100 			" Refresh for sameids
 let g:go_list_type = "quickfix" 		" Always use quickfix
 let g:go_debug = [] 				" Log debug output
+
+autocmd FileType go setlocal foldmethod=syntax 	" Fold on go syntax
 
 "" Go: Functions
 " build_go_files is a custom function that builds or compiles the test file.
