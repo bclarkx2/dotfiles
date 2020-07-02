@@ -181,10 +181,12 @@ let g:go_highlight_operators = 1
 let g:go_highlight_build_contraints = 1
 let g:go_highlight_extra_types = 1
 let g:go_doc_window_popup_window = 1
-let g:go_auto_sameids = 1 			" Auto-highlight identifier
-let g:go_updatetime = 100 			" Refresh for sameids
-let g:go_list_type = "quickfix" 		" Always use quickfix
-let g:go_debug = [] 				" Log debug output
+let g:go_auto_sameids = 1 			 " Auto-highlight identifier
+let g:go_updatetime = 100 			 " Refresh for sameids
+let g:go_list_type = "quickfix" 		 " Always use quickfix
+let g:go_debug = [] 				 " Log debug output
+
+autocmd FileType go let b:argwrap_tail_comma = 1 " Add trailing comma
 
 autocmd FileType go setlocal foldmethod=syntax 	" Fold on go syntax
 
