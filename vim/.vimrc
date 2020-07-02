@@ -83,6 +83,10 @@ set incsearch  " Show search results as you type the query
 
 
 """ Navigation
+"" Modes
+imap jk <Esc>
+imap kj <Esc>
+
 "" Menu
 set wildmenu
 set wildmode=longest:full,full
