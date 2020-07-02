@@ -16,6 +16,7 @@ Plug 'preservim/nerdtree'
 "" Editing
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
+Plug 'FooSoft/vim-argwrap'
 
 "" Tmux
 Plug 'tmux-plugins/vim-tmux-focus-events'
@@ -65,6 +66,10 @@ autocmd VimLeave * call system('echo ' . shellescape(getreg('+')) . ' | xclip -s
 
 "" Folding
 set foldlevel=99  " Keep unfolded by default when opening file
+
+"" ArgWrap
+nnoremap <silent> <leader>w :ArgWrap<CR>
+
 
 
 """ Commands
