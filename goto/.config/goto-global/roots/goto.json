@@ -1,0 +1,9 @@
+{
+	"root": "goto",
+	"path": "~/.config",
+	"defaults": [],
+	"shortcuts": {
+		"global": "goto-global/roots",
+		"local": "goto-local/roots"
+	}
+}

@@ -1,0 +1,30 @@
+{
+	"root": "nav",
+	"path": "~",
+	"defaults": [],
+	"shortcuts": {
+		"bin": "bin",
+		"dot": "dotfiles",
+		"vars": "dotfiles/bash/.bash_variables.d",
+		"dow": "downloads",
+		"pro": "projects",
+		"go": "projects/go",
+		"vm": "vm",
+		"tools": "tools",
+		"goto": "tools/goto",
+		"pwd": "tools/pwd",
+		"local": "local",
+		"lbin": "local/bin",
+		"ldot": "local/dotfiles",
+		"lvars": "local/dotfiles/.bash_variables.d",
+		"vim": ".vim",
+		"fin": "data/finances",
+		"bud": "data/finances/budgets",
+		"j": "data/journal",
+		"data": "data",
+		"d": "data",
+		"misc": "data/misc",
+		"pic": "data/pic",
+		"tmp": "tmp"
+	}
+}
