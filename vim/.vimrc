@@ -38,6 +38,9 @@ Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 "" Languages: Python
 Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 
+"" Lanugages: Mustache
+Plug 'mustache/vim-mustache-handlebars'
+
 call plug#end()
 
 
@@ -252,6 +255,12 @@ let g:pymode_doc_bind = '<leader>gd'
 
 "" Markdown: settings
 autocmd FileType markdown :set tw=80 	" Don't go past 80 columns
+
+
+"" Mustache: settings
+autocmd FileType html.mustache setlocal ts=4 sts=4 	" Use 2 space tabstop
+autocmd FileType html.mustache setlocal sw=4 		" Indent new lines 2 spaces
+autocmd FileType html.mustache setlocal expandtab 	" Don't allow tabs
 
 
 """ Bash
