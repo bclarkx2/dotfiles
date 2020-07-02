@@ -1,0 +1,12 @@
+[user]
+	email = bclarkx2@gmail.com
+	name = Brian Clark
+[core]
+	pager = less -r
+	excludesfile = ~/.gitignore
+[color]
+	ui = true
+[diff]
+	tool = vim
+[url "git@github.com:"]
+	insteadOf = https://github.com/
