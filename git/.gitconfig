@@ -1,6 +1,7 @@
+# Default user/email
 [user]
-	email = bclarkx2@gmail.com
-	name = Brian Clark
+	email = bclark@gmail.com
+	user = Brian Clark
 [core]
 	pager = less -r
 	excludesfile = ~/.gitignore
@@ -10,3 +11,9 @@
 	tool = vim
 [url "git@github.com:"]
 	insteadOf = https://github.com/
+
+# Add work-specific overrides in particular directories
+[includeIf "gitdir:~/code/"]
+	path = .gitconfig-niche
+[includeIf "gitdir:~/niche/"]
+	path = .gitconfig-niche
