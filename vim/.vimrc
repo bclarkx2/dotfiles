@@ -302,8 +302,9 @@ map <C-t> :NERDTreeToggle<CR>
 
 
 """ GitGutter
-set updatetime=10 	" Refresh faster
-set signcolumn=yes 	" Always show sign column to avoid screen jump
+set updatetime=10 	           " Refresh faster
+set signcolumn=yes 	           " Always show sign column to avoid screen jump
+highlight! link SignColumn LineNr  " Use bg color in sign column
 
 
 """ SuperTab
