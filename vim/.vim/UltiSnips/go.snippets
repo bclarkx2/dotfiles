@@ -62,8 +62,37 @@ if !reflect.DeepEqual(${1:expected}, ${2:actual}) {
 endsnippet
 
 snippet aem "Assert equal method" b
-if !reflect.DeepEqual(${1:expected}, ${2:actual}) {
-	t.Errorf("${3:method} ${3:obj} expected:\n%#v\nActual:\n%#v\n",
-		$3, $1, $2)
+func assert${1:obj} (method string, expected, actual ${2:type}, t *testing.T) {
+	if !reflect.DeepEqual(expected, actual) {
+		t.Errorf("%s $1 expected:\n%#v\nActual:\n%#v\n",
+			method, expected, actual)
+	}
+}
+endsnippet
+
+snippet aee "Assert equal error" b
+if reflect.TypeOf(${1:expected}) != reflect.TypeOf(${2:actual}) {
+	t.Errorf("err type expected:\n%#v\nactual:\n%#v\n",
+		$1, $2)
+}
+endsnippet
+
+snippet todo "TODO" b
+// TODO(${1:bclarkx2}): 
+endsnippet
+
+snippet newtype "Create a new interface type" b
+type ${1:Interface} interface {
+
+}
+
+type ${2:implementation} struct {
+	
+}
+
+func New$1() *$2 {
+	return &$2{
+		
+	}
 }
 endsnippet
