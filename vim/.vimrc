@@ -12,6 +12,7 @@ Plug 'honza/vim-snippets'
 "" Navigation
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'preservim/nerdtree'
+Plug 'EinfachToll/DidYouMean'
 
 "" Editing
 Plug 'tpope/vim-surround'
