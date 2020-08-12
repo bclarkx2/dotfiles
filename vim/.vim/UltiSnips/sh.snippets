@@ -17,3 +17,51 @@ snippet section "Create a script section" b
 # ${1:Title}: ${2:description}
 ###############################################################################
 endsnippet
+
+snippet script "create script template" b
+usage() {
+  printf '%s\n' "Usage: ${1:script} [-h]
+${2:usage}
+
+where:
+  -h, --help  - show this help text"
+}
+
+main() {
+
+}
+
+# Option parsing
+declare PARAMS=""
+declare SOME_FLAG='false'
+while (( "$#" )); do
+  case \$1 in
+    -h|--help)  # display help message
+      usage
+      exit 1
+      ;;
+    --)  # End argument parsing
+      shift
+      break
+      ;;
+    -*|--*)  # unsupported flags
+      echo "Unsupported flag: \$1" >&2
+      usage
+      exit 1
+      ;;
+    *)  # preserve positional arguments
+      PARAMS="${PARAMS} \$1"
+      shift
+      ;;
+  esac
+done
+
+# set positional arguments in their proper place
+eval set -- "${PARAMS}"
+
+# Freeze configuration flags
+readonly SOME_FLAG
+
+main
+endsnippet
+
