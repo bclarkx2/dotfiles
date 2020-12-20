@@ -1,0 +1,33 @@
+#!/usr/bin/env bash 
+
+_git_s() {
+  _git_status
+}
+
+_git_d() {
+  _git_diff
+}
+
+_git_a() {
+  _git_add
+}
+
+_git_c() {
+  _git_commit
+}
+
+_git_co() {
+  _git_checkout
+}
+
+_git_f() {
+  _git_fetch
+}
+
+_git_log() {
+  _git_log
+}
+
+_git_try_merge() {
+  _git_merge
+}

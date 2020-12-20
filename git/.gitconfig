@@ -12,6 +12,17 @@
 	tool = vim
 [url "git@github.com:"]
 	insteadOf = https://github.com/
+[alias]
+	s = status
+	d = diff
+	a = add
+	aa = add .
+	c = commit
+	cm = commit -m
+	co = checkout
+	f = fetch
+	l = log
+	try-merge = merge --no-ff --no-commit
 
 # Add work-specific overrides in particular directories
 [includeIf "gitdir:~/code/"]

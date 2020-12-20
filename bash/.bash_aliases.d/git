@@ -1,0 +1,7 @@
+#!/usr/bin/env bash 
+
+source /usr/share/bash-completion/completions/git
+
+# Alias git to g, and forward all the normal completions
+alias g="git"
+__git_complete g __git_main
