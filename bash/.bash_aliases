@@ -44,6 +44,8 @@ alias utest="li 40 && ./test"
 # change env var
 alias cev="source change_env_var"
 
+# toggle the vpn
+alias tv="toggle-vpn"
 
 ##########
 # SVN
