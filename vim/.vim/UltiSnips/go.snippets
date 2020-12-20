@@ -22,6 +22,14 @@ flag.VisitAll(func(f *flag.Flag) {
 })
 endsnippet
 
+snippet errtypet "Define a test custom error type" b
+type ${1:TestError} struct{}
+
+func (e *$1) Error() string {
+	return "$1"
+}
+endsnippet
+
 snippet errtype "Define a custom error type" b
 type ${1:MyNewError} struct {
 	${2:field} ${3:type}
@@ -37,32 +45,49 @@ endsnippet
 
 snippet tdt "Table driven tests" b
 func Test${1:Method}(t *testing.T) {
-
-	testCases := []struct {
-		name string
+	${2:type fields struct {
+		${3:field}
+	}}${2/(.*)/(?0::)/}${4:type args struct {
+		${5:arg}
+	}}${4/(.*)/(?0::)/}${6:type expected struct {
+		${7:expected}
+	}}${6/(.*)/(?0::)/}testCases := []struct {
+		name string${2/(.*fields.*)/(?0:		fields fields:)/}${4/.*args.*/(?0:		args args)/}${6/.*expected.*/(?0:		expected expected)/}
+		err error
 	}{
-		{
-			
-		},
+		${9:testCase}
 	}
 
-	for _, testCase := range testCases {
-		t.Run(testCase.name, func(t *testing.T) {
-
+	for _, tt := range testCases {
+		t.Run(tt.name, func(t *testing.T) {
+			${8:implement}
 		})
 	}
 }
 endsnippet
 
+snippet tdtc "Table driven test case" b
+{
+	name: "${1:name}",
+	${2:fields: fields{
+		${3:field},	
+	},}${2/(.*)/(?0::)/}${4:args: args{
+		${5:arg},
+	},}${4/(.*)/(?0::)/}${6:expected: expected{
+		${7:expect},
+	},}
+	${8:err: $9,}${8/(.*)/(?0::)/}},
+endsnippet
+
 snippet ae "Assert equal" b
-if !reflect.DeepEqual(${1:expected}, ${2:actual}) {
-	t.Errorf("${3:obj} expected:\n%#v\nActual:\n%#v\n",
-		$1, $2)
+if !reflect.DeepEqual(${1:testCase.expected.$2}, ${3:actual}) {
+	t.Errorf("${4:$3} expected:\n%#v\nActual:\n%#v\n",
+		$1, $3)
 }
 endsnippet
 
 snippet aem "Assert equal method" b
-func assert${1:obj} (method string, expected, actual ${2:type}, t *testing.T) {
+func assert${1:obj} (t *testing.T, method string, expected, actual ${2:type}) {
 	if !reflect.DeepEqual(expected, actual) {
 		t.Errorf("%s $1 expected:\n%#v\nActual:\n%#v\n",
 			method, expected, actual)
@@ -95,4 +120,216 @@ func New$1() *$2 {
 		
 	}
 }
+endsnippet
+
+snippet mss "map[string]string" w
+map[string]string
+endsnippet
+
+snippet msf "map[string]float64" w
+map[string]float64
+endsnippet
+
+snippet msi "map[string]interface{}" w
+map[string]interface{}
+endsnippet
+
+snippet route "HTTP route handler" b
+func ${1:route}Handler(r *http.Request) (int, interface{}) {
+    var (
+        ctx = r.Context()
+	logger = service.LoggerFromCtx(ctx)
+    )
+    
+    return http.StatusOK, interface{} 
+}
+endsnippet
+
+snippet jsonu "JSON Unmarshal" b
+${1:var ${2:target} ${3:type}}
+if err := json.Unmarshal(${4:json}, &$2); err != nil {
+	${5:return ${6:nil}, ${7:${8:err}}}
+}
+endsnippet
+
+snippet jsonm "JSON Marshal" b
+${1:data}, err := json.Marshal(${2:obj})
+endsnippet
+
+snippet store "Postgres store" b
+
+import (
+	"context"
+	"database/sql"
+	"fmt"
+
+	"github.com/golang-migrate/migrate/v4"
+	"github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
+	"github.com/lib/pq"
+	"github.com/nicheinc/go-common/v12/guid"
+	"github.com/nicheinc/go-common/v12/logging"
+	"go.uber.org/zap"
+)
+
+type store struct {
+	db *sql.DB
+
+	stmt *sql.Stmt
+
+	logger *zap.Logger
+}
+
+// NewStore is a function for creating a concrete instance of the
+// Store interface
+func NewStore(ctx context.Context, connectionString string, backoff time.Duration, migrationSource string, logger *zap.Logger) (Store, error) {
+	var (
+		s = store{
+			logger: logger,
+		}
+		err error
+	)
+
+	if s.db, err = sql.Open("postgres", connectionString); err != nil {
+		return nil, err
+	}
+
+	if err := s.waitForConnection(ctx, backoff); err != nil {
+		return nil, err
+	}
+
+	if err := s.migrate(migrationSource); err != nil {
+		return nil, fmt.Errorf("error migrating database schema: %w", err)
+	}
+
+	if err := s.prepareStmts(ctx); err != nil {
+		return nil, err
+	}
+
+	return &s, nil
+}
+
+func (s *store) waitForConnection(ctx context.Context, backoff time.Duration) error {
+	// Try to ping database until context timeout is reached
+	for {
+		if err := s.db.PingContext(ctx); err != nil {
+			s.logger.Warn("Error connecting to postgres database", zap.Error(err))
+
+			select {
+			case <-time.After(backoff):
+				continue
+			case <-ctx.Done():
+				// Return last ping error
+				return fmt.Errorf("error connecting to postgres database: %s", err)
+			}
+		}
+		s.logger.Info("Connected to postgres database")
+		return nil
+	}
+}
+
+func (s *store) migrate(migrationSource string) error {
+	driver, err := postgres.WithInstance(s.db, &postgres.Config{})
+	if err != nil {
+		return fmt.Errorf("error creating migration database instance: %w", err)
+	}
+
+	m, err := migrate.NewWithDatabaseInstance(
+		migrationSource,
+		"postgres", driver,
+	)
+	if err != nil {
+		return fmt.Errorf("error creating migrate instance: %w", err)
+	}
+
+	oldVersion, dirty, err := m.Version()
+	switch {
+	case err != nil:
+		return fmt.Errorf("error checking current database schema version: %w", err)
+	case dirty:
+		return fmt.Errorf("dirty database schema, version: %d", oldVersion)
+	}
+
+	if err := m.Up(); err != nil && err == migrate.ErrNoChange {
+		s.logger.Debug("No database migration necessary",
+			zap.Uint("version", oldVersion),
+		)
+	} else if err != nil {
+		return fmt.Errorf("error performing migration to latest version: %w", err)
+	} else {
+		newVersion, dirty, err := m.Version()
+		if err != nil {
+			return fmt.Errorf("error checking database schema version after migration: %w", err)
+		} else if dirty {
+			return fmt.Errorf("dirty database schema after migration, version: %d", newVersion)
+		}
+		s.logger.Debug("Database migrated to latest version",
+			zap.Uint("oldVersion", oldVersion),
+			zap.Uint("newVersion", newVersion),
+		)
+	}
+	return nil
+}
+
+func (s *store) prepareStmts(ctx context.Context) error {
+	var err error
+
+	if s.stmt, err = s.db.Prepare(`
+		`,
+	); err != nil {
+		return &PreparedStmtError{Stmt: "schemaStmt", Err: err}
+	}
+
+	return nil
+}
+
+// Close safely closes and disposes the store's database connection
+func (s *store) Close() error {
+	if err := s.stmt.Close(); err != nil {
+		return err
+	}
+	return s.db.Close()
+}
+
+endsnippet
+
+snippet fetch "Fetch from db" b
+rows, err := s.stmt.QueryContext(
+	ctx,
+)
+if err != nil {
+	return nil, fmt.Errorf("error querying results: %w", err)
+}
+defer rows.Close()
+
+results := []Result{}
+for rows.Next() {
+	var (
+		result Result
+	)
+	if err := rows.Scan(
+		&result.ID,
+	); err != nil {
+		return nil, fmt.Errof("error scanning result: %w", err)
+	}
+
+	results = append(results, result)
+}
+if err := rows.Err(); err != nil {
+	return nil, fmt.Errorf("error iterating over results: %w", err)
+}
+
+return results, nil
+endsnippet
+
+snippet ctx "context!" w
+ctx context.Context
+endsnippet
+
+snippet uuidt "test uuid" b
+${1:uuid1} = guid.MustParse("${2:uuid}")
+endsnippet
+
+snippet timet "test time" w
+${1:time1}, _ = time.Parse(time.RFC3339, "2000-01-01T02:03:04.555Z")
 endsnippet

@@ -42,6 +42,9 @@ Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 "" Lanugages: Mustache
 Plug 'mustache/vim-mustache-handlebars'
 
+"" Languages: SQL
+Plug 'cosminadrianpopescu/vim-sql-workbench'
+
 call plug#end()
 
 
@@ -153,6 +156,8 @@ syntax on 		" enable syntax highlighting
 "" hide highlights
 nnoremap <silent> <return> :let @/=""<return><return>
 
+"" save
+nnoremap ww :update<cr>
 
 """ Statusline
 set laststatus=2
@@ -223,12 +228,14 @@ augroup go
 	au FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
 	au FileType go nmap <leader>r <Plug>(go-run)
 	au FileType go nmap <leader>t <Plug>(go-test)
+	au FileType go nmap <leader>g <Plug>(go-generate)
 
 	" Navigate
 	au FileType go nmap <leader>a <Plug>(go-alternate-edit)
 
 	" Edit
 	au FileType go nmap <leader>r <Plug>(go-rename)
+	au FileType go nmap <leader>f <Plug>(go-fill-struct)
 
 	" Show info
 	au FileType go nmap <leader>i <Plug>(go-info)
@@ -262,6 +269,7 @@ let g:pymode_doc_bind = '<leader>gd'
 
 "" Markdown: settings
 autocmd FileType markdown :set tw=80 	" Don't go past 80 columns
+autocmd BufWritePost README.md silent execute "!doctoc <afile> &>/dev/null" | redraw!
 
 
 "" Mustache: settings
@@ -286,6 +294,9 @@ autocmd FileType yaml setlocal expandtab 		" Don't allow tabs
 """ JSON
 autocmd FileType json setlocal foldmethod=syntax 	" Fold on json syntax
 
+
+""" SQL
+let g:sw_exe = "/home/bclark/tools/sql-workbench/sqlwbconsole.sh"
 
 """ jq
 "" Use jq inside vim on text in current buffer
