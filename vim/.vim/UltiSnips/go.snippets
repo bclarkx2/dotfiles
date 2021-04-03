@@ -326,10 +326,28 @@ snippet ctx "context!" w
 ctx context.Context
 endsnippet
 
+snippet logger "logger!" w
+logger *zap.Logger
+endsnippet
+
 snippet uuidt "test uuid" b
 ${1:uuid1} = guid.MustParse("${2:uuid}")
 endsnippet
 
 snippet timet "test time" w
 ${1:time1}, _ = time.Parse(time.RFC3339, "2000-01-01T02:03:04.555Z")
+endsnippet
+
+snippet sort "implement sort.Interface" b
+func (${1:t} ${2:*Type}) Len() int {
+	return ${3:len($1)}
+}
+
+func ($1 $2) Less(i, j int) bool {
+	return ${4:$1[i].${5:prop} < $1[j].$5}
+}
+
+func ($1 $2) Swap(i, j int) {
+	${6:$1[i], $1[j] = $1[j], $1[i]}
+}
 endsnippet
