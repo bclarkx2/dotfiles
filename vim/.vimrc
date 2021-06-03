@@ -146,6 +146,9 @@ set display+=lastline
 set cursorline 		" underline current line
 set scrolloff=12	" start scrolling when there are this many lines remaining on screen
 set number		" show line numbers
+set relativenumber 	" make line numbers relative
+set showcmd 		" show normal mode command as you type it
+set lazyredraw 		" don't redraw screen during macro
 
 "" Color scheme
 syntax on 		" enable syntax highlighting
@@ -158,6 +161,10 @@ nnoremap <silent> <return> :let @/=""<return><return>
 
 "" save
 nnoremap ww :update<cr>
+
+"" toggle relative line numbers
+nnoremap <C-L> :set invrelativenumber<CR>
+
 
 """ Statusline
 set laststatus=2
@@ -173,8 +180,7 @@ set statusline+=%{&fileencoding?&fileencoding:&encoding} 	" File encoding
 set statusline+=\[%{&fileformat}\] 				" File format
 set statusline+=%6l/%-5L 					" Current line / total lines
 set statusline+=\ 						" _
-set statusline+=%-3c 		 				" Column number
-
+set statusline+=%4c/%-4{col('$')-1} 				" Column number
 
 """ Go
 "" Go: Config
@@ -220,6 +226,9 @@ endfunction
 "" Go: Mappings
 augroup go
 	autocmd!
+
+	" Execute gofmt in addition to goimports on write
+	au BufWritePost *.go silent execute "!gofmt -s -w <afile>" | redraw!
 	
 	" Show by default 4 spaces for a tab
 	au BufNewFile,BufRead *.go setlocal noexpandtab tabstop=4 shiftwidth=4
@@ -235,7 +244,8 @@ augroup go
 
 	" Edit
 	au FileType go nmap <leader>r <Plug>(go-rename)
-	au FileType go nmap <leader>f <Plug>(go-fill-struct)
+	au FileType go nmap <leader>f :GoFillStruct<CR>
+	au FileType go nmap <leader>c ]}V%y%p
 
 	" Show info
 	au FileType go nmap <leader>i <Plug>(go-info)
@@ -269,7 +279,7 @@ let g:pymode_doc_bind = '<leader>gd'
 
 "" Markdown: settings
 autocmd FileType markdown :set tw=80 	" Don't go past 80 columns
-autocmd BufWritePost README.md silent execute "!doctoc <afile> &>/dev/null" | redraw!
+autocmd BufWritePost *.md silent execute "!doctoc <afile> &>/dev/null" | redraw!
 
 
 "" Mustache: settings
