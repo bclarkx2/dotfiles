@@ -102,6 +102,20 @@ if reflect.TypeOf(${1:expected}) != reflect.TypeOf(${2:actual}) {
 }
 endsnippet
 
+snippet ad "Assert diff" b
+if diff := cmp.Diff(${1:tt.$2}, ${3:actual}); diff != "" {
+	t.Errorf("\nUnexpected $3:\n%s\n", diff)
+}
+endsnippet
+
+snippet adm "Assert diff method" b
+func assert${1:obj} (t *testing.T, method string, expected, actual ${2:type}) {
+	if diff := cmp.Diff(expected, actual); diff != "" {
+		t.Errorf("\nUnexpected $1:\n%s\n", diff)
+	}
+}
+endsnippet
+
 snippet todo "TODO" b
 // TODO(${1:bclarkx2}): 
 endsnippet
