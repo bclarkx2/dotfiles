@@ -1,0 +1,9 @@
+#!/usr/bin/env bash 
+
+show_path() {
+  for d in ${PATH//:/ } ; do
+    echo "$d"
+  done
+  echo
+}
+export show_path

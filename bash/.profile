@@ -16,10 +16,6 @@ if [ -n "$BASH_VERSION" ]; then
     fi
 fi
 
-# set PATH so it includes user's private bin directories
-PATH="$HOME/bin:$HOME/.local/bin:$PATH"
-
-
 # for login shells, start user specific anacron
 if [[ -f ${HOME}/.anacron/etc/anacrontab ]] ; then
     /usr/sbin/anacron -s -t ${HOME}/.anacron/etc/anacrontab -S ${HOME}/.anacron/spool

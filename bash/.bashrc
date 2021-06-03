@@ -8,12 +8,31 @@ case $- in
       *) return;;
 esac
 
+# tool to safely append to PATH without adding duplicates
+path_append() {
+  for p in "$@" ; do
+    if [ -d "$p" ] && [[ ":$PATH:" != *":$p:"* ]]; then
+        PATH="${PATH:+"$PATH:"}$p"
+    fi
+  done
+}
+export path_append
+
+# tool to safely prepend to PATH without adding duplicates
+path_prepend() {
+  for ((i=$#; i>0; i--)) ; do
+    p=${!i}
+    if [ -d "$p" ] && [[ ":$PATH:" != *":$p:"* ]]; then
+        PATH="$p${PATH:+":$PATH"}"
+    fi
+  done
+}
+export path_prepend
+
 # Add user directories to PATH
 # Note that $HOME/local precedes $HOME/bin. if ~/bin is tracked
 # by VCS, anything in it can be overridden by a file in ~/local/bin
-export PATH="$HOME/bin:$PATH"
-export PATH="$HOME/.local/bin:$PATH"
-export PATH="$HOME/local/bin:$PATH"
+path_prepend "$HOME/local/bin" "$HOME/.local/bin" "$HOME/bin"
 
 # don't put duplicate lines or lines starting with space in the history.
 # See bash(1) for more options
@@ -107,4 +126,3 @@ export PROMPT_COMMAND='PS1="$(pwd.py)" ; pwd > /tmp/where'
 
 # on opening, cd to last directory (if exists)
 [[ -f /tmp/where ]] && cd $(cat /tmp/where)
-
