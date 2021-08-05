@@ -83,6 +83,11 @@ nnoremap <silent> <leader>w :ArgWrap<CR>
 "" Force write: use sudo to silently write to a readonly buffer (DANGER)
 cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 
+"" Repeat last command on visual selection
+""  This grabs the previous command and re-applies it to whatever
+""  is currently in your visual selection.
+xnoremap <leader>. q:<UP>I'<,'><Esc>$
+
 set incsearch  " Show search results as you type the query
 
 
