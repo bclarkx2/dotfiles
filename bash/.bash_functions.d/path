@@ -1,5 +1,6 @@
 #!/usr/bin/env bash 
 
+# list entries in PATH in order
 show_path() {
   for d in ${PATH//:/ } ; do
     echo "$d"
@@ -7,3 +8,8 @@ show_path() {
   echo
 }
 export show_path
+
+# remove duplicates from PATH, maintaing order
+dedupe_path() {
+  PATH="$(perl -e 'print join(":", grep { not $seen{$_}++ } split(/:/, $ENV{PATH}))')"
+}
