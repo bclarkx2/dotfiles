@@ -23,6 +23,7 @@
 	f = fetch
 	l = log
 	try-merge = merge --no-ff --no-commit
+	sub = submodule
 
 # Add work-specific overrides in particular directories
 [includeIf "gitdir:~/code/"]
