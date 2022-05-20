@@ -17,6 +17,7 @@ Plug 'EinfachToll/DidYouMean'
 "" Editing
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
+Plug 'tpope/vim-commentary'
 Plug 'FooSoft/vim-argwrap'
 
 "" Tmux
@@ -44,6 +45,10 @@ Plug 'mustache/vim-mustache-handlebars'
 
 "" Languages: SQL
 Plug 'cosminadrianpopescu/vim-sql-workbench'
+
+"" Languages: Typescript
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
 
 call plug#end()
 
@@ -269,6 +274,13 @@ augroup go
 	au FileType go nmap <leader>ct <Plug>(go-coverage-toggle)
 	au FileType go nmap <leader>cb <Plug>(go-coverage-browser)
 
+	" Add godoc style comment
+	au FileType go nmap <leader>id yiwO// <ESC>pa 
+
+
+	" Copy line location in remote
+	au FileType go nmap <leader>h :0:GBrowse!<return><return>
+	au FileType go vmap <leader>h :GBrowse!<return><return>
 augroup END
 
 
@@ -282,15 +294,21 @@ let g:pymode_lint_checkers = ['pylint']
 let g:pymode_doc_bind = '<leader>gd'
 
 
-"" Markdown: settings
+""" Markdown
 autocmd FileType markdown :set tw=80 	" Don't go past 80 columns
 autocmd BufWritePost *.md silent execute "!doctoc <afile> &>/dev/null" | redraw!
 
 
-"" Mustache: settings
-autocmd FileType html.mustache setlocal ts=4 sts=4 	" Use 2 space tabstop
-autocmd FileType html.mustache setlocal sw=4 		" Indent new lines 2 spaces
+""" Mustache
+autocmd FileType html.mustache setlocal ts=4 sts=4 	" Use 4 space tabstop
+autocmd FileType html.mustache setlocal sw=4 		" Indent new lines 4 spaces
 autocmd FileType html.mustache setlocal expandtab 	" Don't allow tabs
+
+""" Conf
+au BufRead,BufNewFile *.conf setfiletype conf
+autocmd FileType conf setlocal ts=4 sts=4               " Use 4 space tabstop
+autocmd FileType conf setlocal sw=4                     " Indent new lines 4 spaces
+autocmd FileType conf setlocal expandtab                " Don't allow tabs
 
 
 """ Bash
@@ -298,6 +316,10 @@ autocmd FileType sh setlocal ts=2 sts=2 		" Use 2 space tabstop
 autocmd FileType sh setlocal sw=2 			" Indent new lines 2 spaces
 autocmd FileType sh setlocal expandtab 			" Don't allow tabs
 
+""" Typescript
+autocmd FileType typescript setlocal ts=2 sts=2 	" Use 2 space tabstop
+autocmd FileType typescript setlocal sw=2 		" Indent new lines 2 spaces
+autocmd FileType typescript setlocal expandtab 		" Don't allow tabs
 
 """ YAML
 autocmd FileType yaml setlocal foldmethod=indent 	" Fold on indents

@@ -44,7 +44,7 @@ func (e *$1) Error() string {
 endsnippet
 
 snippet tdt "Table driven tests" b
-func Test${1:Method}(t *testing.T) {
+func Test_${1:Method}(t *testing.T) {
 	${2:type fields struct {
 		${3:field}
 	}}${2/(.*)/(?0::)/}${4:type args struct {
@@ -53,14 +53,16 @@ func Test${1:Method}(t *testing.T) {
 		${7:expected}
 	}}${6/(.*)/(?0::)/}testCases := []struct {
 		name string${2/(.*fields.*)/(?0:		fields fields:)/}${4/.*args.*/(?0:		args args)/}${6/.*expected.*/(?0:		expected expected)/}
-		err error
+		$8
 	}{
-		${9:testCase}
+		{
+			name: "",
+		},
 	}
 
 	for _, tt := range testCases {
 		t.Run(tt.name, func(t *testing.T) {
-			${8:implement}
+			$0
 		})
 	}
 }
@@ -80,7 +82,7 @@ snippet tdtc "Table driven test case" b
 endsnippet
 
 snippet ae "Assert equal" b
-if !reflect.DeepEqual(${1:testCase.expected.$2}, ${3:actual}) {
+if !reflect.DeepEqual(${1:tt.expected.$2}, ${3:actual}) {
 	t.Errorf("${4:$3} expected:\n%#v\nActual:\n%#v\n",
 		$1, $3)
 }
@@ -149,7 +151,7 @@ map[string]interface{}
 endsnippet
 
 snippet route "HTTP route handler" b
-func ${1:route}Handler(r *http.Request) (int, interface{}) {
+func ${1:(a *app)} ${2:route}Handler(r *http.Request) (int, interface{}) {
     var (
         ctx = r.Context()
 	logger = service.LoggerFromCtx(ctx)
@@ -324,7 +326,7 @@ for rows.Next() {
 	if err := rows.Scan(
 		&result.ID,
 	); err != nil {
-		return nil, fmt.Errof("error scanning result: %w", err)
+		return nil, fmt.Errorf("error scanning result: %w", err)
 	}
 
 	results = append(results, result)
@@ -334,6 +336,27 @@ if err := rows.Err(); err != nil {
 }
 
 return results, nil
+endsnippet
+
+snippet insert "Insert into db" b
+	if result, err := ${1:insertStmt}.ExecContext(
+		ctx,
+	); err != nil {
+		return fmt.Errorf("error inserting ${2:item}: %w", err)
+	} else if affected, err := result.RowsAffected(); err != nil {
+		return fmt.Errorf("error inserting $2: error getting number of rows affected: %w", err)
+	} else if affected != ${3:rows} {
+		return fmt.Errorf("error inserting $2: incorrect number of rows affected: %d (expected: $3)", affected)
+	}
+	return nil
+endsnippet
+
+snippet prepareStmt "Prepare a sql stmt" b
+	if s.${1:stmt}, err = s.db.PrepareContext(ctx, `
+		`,
+	); err != nil {
+		return
+	}
 endsnippet
 
 snippet ctx "context!" w
@@ -364,4 +387,46 @@ func ($1 $2) Less(i, j int) bool {
 func ($1 $2) Swap(i, j int) {
 	${6:$1[i], $1[j] = $1[j], $1[i]}
 }
+endsnippet
+
+snippet app "append to a slice" w
+${1:slice} = append($1, ${2:val})
+endsnippet
+
+snippet testlogger "create a logger for endpoint testing" b
+	raw := []byte(\`{
+		"level": "error",
+		"development": false,
+		"disableCaller": false,
+		"disableStacktrace": false,
+		"encoding": "console",
+		"encoderConfig": {
+			"messageKey": "msg",
+			"levelKey": "level",
+			"levelEncoder": "lowercase",
+			"timeKey": "ts",
+			"nameKey": "name",
+			"callerKey": "caller",
+			"stacktraceKey": "stacktrace",
+			"lineEnding": "\n",
+			"timeEncoder": "iso8601"
+		},
+		"outputPaths": ["stderr"],
+		"errorOutoutPaths": ["stderr"]
+	}\`)
+
+	var config zap.Config
+	err := json.Unmarshal(raw, &config)
+	if err != nil {
+		panic(err)
+	}
+
+	opts := []zap.Option{
+		zap.AddStacktrace(zapcore.ErrorLevel),
+	}
+
+	logger, err := config.Build(opts...)
+	if err != nil {
+		panic(err.Error())
+	}
 endsnippet
