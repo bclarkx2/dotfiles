@@ -11,7 +11,6 @@ Plug 'honza/vim-snippets'
 
 "" Navigation
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'preservim/nerdtree'
 Plug 'EinfachToll/DidYouMean'
 
 "" Editing
@@ -34,6 +33,9 @@ Plug 'airblade/vim-gitgutter'
 Plug 'gilgigilgil/anderson.vim'
 Plug 'lifepillar/vim-solarized8'
 
+"" Coc
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
 "" Languages: Go
 Plug 'fatih/vim-go', { 'do': ':GoUpdateBinaries' }
 
@@ -48,7 +50,7 @@ Plug 'cosminadrianpopescu/vim-sql-workbench'
 
 "" Languages: Typescript
 Plug 'leafgarland/typescript-vim'
-Plug 'peitalin/vim-jsx-typescript'
+Plug 'MaxMEllon/vim-jsx-pretty'
 
 call plug#end()
 
@@ -92,6 +94,12 @@ cnoremap w!! execute 'silent! write !sudo tee % >/dev/null' <bar> edit!
 ""  This grabs the previous command and re-applies it to whatever
 ""  is currently in your visual selection.
 xnoremap <leader>. q:<UP>I'<,'><Esc>$
+
+"" Find git merge conflicts
+command! Df :normal /<<<<<<<\|=======\|>>>>>>>/^
+
+"" Delete all git merge conflicts
+command! Dd :g/<<<<<<<\|=======\|>>>>>>>/d
 
 set incsearch  " Show search results as you type the query
 
@@ -217,10 +225,6 @@ let g:go_updatetime = 100 			 " Refresh for sameids
 let g:go_list_type = "quickfix" 		 " Always use quickfix
 let g:go_debug = [] 				 " Log debug output
 
-autocmd FileType go let b:argwrap_tail_comma = 1 " Add trailing comma
-
-autocmd FileType go setlocal foldmethod=syntax 	" Fold on go syntax
-
 "" Go: Functions
 " build_go_files is a custom function that builds or compiles the test file.
 " It calls :GoBuild if its a Go file, or :GoTestCompile if it's a test file
@@ -233,9 +237,27 @@ function! s:build_go_files()
 	endif
 endfunction
 
+function! TogglePointer(char)
+	if a:char == " "
+		return " &"
+	elseif a:char == "&"
+		return "*"
+	elseif a:char == "*"
+		return ""
+	else 
+		return a:char . "&"
+	endif
+endfunction
+
 "" Go: Mappings
 augroup go
 	autocmd!
+
+	" Add trailing comma
+	au FileType go let b:argwrap_tail_comma = 1 
+
+	" Fold on go syntax	
+	au FileType go setlocal foldmethod=syntax 
 
 	" Execute gofmt in addition to goimports on write
 	au BufWritePost *.go silent execute "!gofmt -s -w <afile>" | redraw!
@@ -277,6 +299,8 @@ augroup go
 	" Add godoc style comment
 	au FileType go nmap <leader>id yiwO// <ESC>pa 
 
+	" Toggle pointer
+	au FileType go nmap <leader>tp ebhdl"=TogglePointer(@@)<CR>P
 
 	" Copy line location in remote
 	au FileType go nmap <leader>h :0:GBrowse!<return><return>
@@ -295,41 +319,102 @@ let g:pymode_doc_bind = '<leader>gd'
 
 
 """ Markdown
-autocmd FileType markdown :set tw=80 	" Don't go past 80 columns
-autocmd BufWritePost *.md silent execute "!doctoc <afile> &>/dev/null" | redraw!
+augroup markdown
+	autocmd!
+	autocmd FileType markdown :set tw=80 	" Don't go past 80 columns
+	autocmd BufWritePost *.md silent execute "!doctoc <afile> &>/dev/null" | redraw!
+augroup END
 
 
 """ Mustache
-autocmd FileType html.mustache setlocal ts=4 sts=4 	" Use 4 space tabstop
-autocmd FileType html.mustache setlocal sw=4 		" Indent new lines 4 spaces
-autocmd FileType html.mustache setlocal expandtab 	" Don't allow tabs
+augroup mustache
+	autocmd!
+	autocmd FileType html.mustache setlocal ts=4 sts=4 	" Use 4 space tabstop
+	autocmd FileType html.mustache setlocal sw=4 		" Indent new lines 4 spaces
+	autocmd FileType html.mustache setlocal expandtab 	" Don't allow tabs
+augroup END
+
 
 """ Conf
-au BufRead,BufNewFile *.conf setfiletype conf
-autocmd FileType conf setlocal ts=4 sts=4               " Use 4 space tabstop
-autocmd FileType conf setlocal sw=4                     " Indent new lines 4 spaces
-autocmd FileType conf setlocal expandtab                " Don't allow tabs
+augroup conffile
+	autocmd!
+	au BufRead,BufNewFile *.conf setfiletype conf
+	autocmd FileType conf setlocal ts=4 sts=4               " Use 4 space tabstop
+	autocmd FileType conf setlocal sw=4                     " Indent new lines 4 spaces
+	autocmd FileType conf setlocal expandtab                " Don't allow tabs
+augroup END
 
 
 """ Bash
-autocmd FileType sh setlocal ts=2 sts=2 		" Use 2 space tabstop
-autocmd FileType sh setlocal sw=2 			" Indent new lines 2 spaces
-autocmd FileType sh setlocal expandtab 			" Don't allow tabs
+augroup bash
+	autocmd!
+	autocmd FileType sh setlocal ts=2 sts=2 		" Use 2 space tabstop
+	autocmd FileType sh setlocal sw=2 			" Indent new lines 2 spaces
+	autocmd FileType sh setlocal expandtab 			" Don't allow tabs
+augroup END
 
 """ Typescript
-autocmd FileType typescript setlocal ts=2 sts=2 	" Use 2 space tabstop
-autocmd FileType typescript setlocal sw=2 		" Indent new lines 2 spaces
-autocmd FileType typescript setlocal expandtab 		" Don't allow tabs
+augroup typescript 
+	autocmd!
+
+	" Set spacing and indentation
+	autocmd FileType typescript setlocal ts=2 sts=2 	" Use 2 space tabstop
+	autocmd FileType typescript setlocal sw=2 		" Indent new lines 2 spaces
+	autocmd FileType typescript setlocal expandtab 		" Don't allow tabs
+
+	" Use prettier for formatting
+	" autocmd FileType typescript setlocal formatprg=prettier\ --parser\ typescript
+
+	" Coc: navigation
+	autocmd FileType typescript nmap <leader>d <Plug>(coc-definition)
+	autocmd FileType typescript nmap <leader>dt <Plug>(coc-type-definition)
+	autocmd FileType typescript nmap <leader>ref <Plug>(coc-references)
+	autocmd FileType typescript nmap <leader>i <Plug>(coc-implementation)
+	autocmd FileType typescript nmap [g <Plug>(coc-diagnostic-prev)
+	autocmd FileType typescript nmap ]g <Plug>(coc-diagnostic-next)
+
+	" Coc: edit
+	autocmd FileType typescript nmap <leader>do <Plug>(coc-codeaction)
+	autocmd FileType typescript nmap <leader>r <Plug>(coc-rename)
+
+	autocmd FileType typescript xmap <leader>a <Plug>(coc-codeaction-selected)
+	autocmd FileType typescript nmap <leader>a <Plug>(coc-codeaction-selected)
+	
+	autocmd FileType typescript nmap <leader>qf <Plug>(coc-fix-current)
+
+	" Coc: text objects
+	autocmd FileType typescript xmap if <Plug>(coc-funcobj-i)
+	autocmd FileType typescript omap if <Plug>(coc-funcobj-i)
+	autocmd FileType typescript xmap af <Plug>(coc-funcobj-a)
+	autocmd FileType typescript omap af <Plug>(coc-funcobj-a)
+	autocmd FileType typescript xmap ic <Plug>(coc-classobj-i)
+	autocmd FileType typescript omap ic <Plug>(coc-classobj-i)
+	autocmd FileType typescript xmap ac <Plug>(coc-classobj-a)
+	autocmd FileType typescript omap ac <Plug>(coc-classobj-a)
+
+	" Coc: formatting
+	autocmd FileType typescript xmap <leader>f <Plug>(coc-format-selected)
+	autocmd FileType typescript nmap <leader>f <Plug>(coc-format-selected)
+
+	" Coc: lists
+	autocmd FileType typescript nnoremap <silent><nowait> <leader>b :<C-u>CocList diagnostics<cr>
+augroup END
 
 """ YAML
-autocmd FileType yaml setlocal foldmethod=indent 	" Fold on indents
-autocmd FileType yaml setlocal ts=2 sts=2 		" Use 2 space tabstop
-autocmd FileType yaml setlocal sw=2 			" Indent new lines 2 spaces
-autocmd FileType yaml setlocal expandtab 		" Don't allow tabs
+augroup yaml
+	autocmd!
+	autocmd FileType yaml setlocal foldmethod=indent 	" Fold on indents
+	autocmd FileType yaml setlocal ts=2 sts=2 		" Use 2 space tabstop
+	autocmd FileType yaml setlocal sw=2 			" Indent new lines 2 spaces
+	autocmd FileType yaml setlocal expandtab 		" Don't allow tabs
+augroup END
 
 
 """ JSON
-autocmd FileType json setlocal foldmethod=syntax 	" Fold on json syntax
+augroup json
+	autocmd!
+	autocmd FileType json setlocal foldmethod=syntax 	" Fold on json syntax
+augroup END
 
 
 """ SQL
@@ -338,15 +423,6 @@ let g:sw_exe = "/home/bclark/tools/sql-workbench/sqlwbconsole.sh"
 """ jq
 "" Use jq inside vim on text in current buffer
 command! -nargs=1 Jq :% !jq <q-args>
-
-
-""" NERDtree
-"" Start NERDtree automatically on directories
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
-
-" Bind command to toggle tree
-map <C-t> :NERDTreeToggle<CR>
 
 
 """ GitGutter
@@ -359,6 +435,19 @@ highlight! link SignColumn LineNr  " Use bg color in sign column
 let g:SuperTabDefaultCompletionType = '<C-n>'  " This allows using both YCM and UltiSnips
 
 
+""" Coc
+"" Configure language servers
+let g:coc_global_extensions = [
+	\ 'coc-tsserver'
+	\ ]
+if isdirectory('./node_modules') && isdirectory('./node_modules/prettier')
+  let g:coc_global_extensions += ['coc-prettier']
+endif
+
+if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
+  let g:coc_global_extensions += ['coc-eslint']
+endif
+
 """ YCM
 set completeopt=menuone
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']  " Navigate down menu
@@ -367,6 +456,8 @@ let g:ycm_key_list_stop_completion = ['<C-y>', '<CR>'] 	    " Select option
 let g:ycm_enable_diagnostic_highlighting = 0 		    " Remove highlighting
 let g:ycm_filetype_blacklist = {
 	\ 'vimscript': 1,
+	\ 'javascript': 1,
+	\ 'typescript': 1,
 	\}
 "highlight YcmErrorLine guibg=#3f3f00
 "highlight YcmErrorSection guibg=#3f3f00
