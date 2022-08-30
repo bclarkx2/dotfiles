@@ -4,8 +4,6 @@
 call plug#begin('~/.vim/plugged')
 
 "" Snippets
-Plug 'ervandew/supertab'
-Plug 'ycm-core/YouCompleteMe'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
@@ -44,9 +42,6 @@ Plug 'python-mode/python-mode', { 'for': 'python', 'branch': 'develop' }
 
 "" Lanugages: Mustache
 Plug 'mustache/vim-mustache-handlebars'
-
-"" Languages: SQL
-Plug 'cosminadrianpopescu/vim-sql-workbench'
 
 "" Languages: Typescript
 Plug 'leafgarland/typescript-vim'
@@ -417,9 +412,6 @@ augroup json
 augroup END
 
 
-""" SQL
-let g:sw_exe = "/home/bclark/tools/sql-workbench/sqlwbconsole.sh"
-
 """ jq
 "" Use jq inside vim on text in current buffer
 command! -nargs=1 Jq :% !jq <q-args>
@@ -429,10 +421,6 @@ command! -nargs=1 Jq :% !jq <q-args>
 set updatetime=10 	           " Refresh faster
 set signcolumn=yes 	           " Always show sign column to avoid screen jump
 highlight! link SignColumn LineNr  " Use bg color in sign column
-
-
-""" SuperTab
-let g:SuperTabDefaultCompletionType = '<C-n>'  " This allows using both YCM and UltiSnips
 
 
 """ Coc
@@ -448,21 +436,22 @@ if isdirectory('./node_modules') && isdirectory('./node_modules/eslint')
   let g:coc_global_extensions += ['coc-eslint']
 endif
 
-""" YCM
-set completeopt=menuone
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']  " Navigate down menu
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']  " Navigate up menu
-let g:ycm_key_list_stop_completion = ['<C-y>', '<CR>'] 	    " Select option
-let g:ycm_enable_diagnostic_highlighting = 0 		    " Remove highlighting
-let g:ycm_filetype_blacklist = {
-	\ 'vimscript': 1,
-	\ 'javascript': 1,
-	\ 'typescript': 1,
-	\}
-"highlight YcmErrorLine guibg=#3f3f00
-"highlight YcmErrorSection guibg=#3f3f00
-"highlight YcmWarningLine guibg=#3f003f
-"highlight YcmWarningSection guibg=#3f003f
+" Make <CR> confirm the current selection in the popup menu
+inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
+
+" Make <shift>+<tab> go backwards in the popup menu
+inoremap <expr> <S-Tab> coc#pum#visible() ? coc#pum#prev(1) : "\<S-Tab>"
+
+" use <tab> for trigger completion and navigate to the next complete item
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
+
+inoremap <silent><expr> <Tab>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
 
 
 """ UltiSnips
