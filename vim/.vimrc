@@ -16,6 +16,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-commentary'
 Plug 'FooSoft/vim-argwrap'
+Plug 'godlygeek/tabular'
 
 "" Tmux
 Plug 'tmux-plugins/vim-tmux-focus-events'
@@ -46,6 +47,9 @@ Plug 'mustache/vim-mustache-handlebars'
 "" Languages: Typescript
 Plug 'leafgarland/typescript-vim'
 Plug 'MaxMEllon/vim-jsx-pretty'
+
+"" Languages: LaTeX
+Plug 'lervag/vimtex'
 
 call plug#end()
 
@@ -409,6 +413,16 @@ augroup END
 augroup json
 	autocmd!
 	autocmd FileType json setlocal foldmethod=syntax 	" Fold on json syntax
+augroup END
+
+""" LaTeX
+augroup latex
+	autocmd FileType tex setlocal ts=2 sts=2 		" Use 2 space tabstop
+	autocmd FileType tex setlocal sw=2 			" Indent new lines 2 spaces
+	autocmd FileType tex setlocal expandtab 		" Don't allow tabs
+	filetype plugin indent on 
+	syntax enable
+	let g:vimtex_imaps_enabled = 0 " disable insert mode mappings in favor of UltiSnips
 augroup END
 
 
