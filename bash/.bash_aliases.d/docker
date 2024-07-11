@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 
-alias doc="docker-compose"
-alias logs="docker-compose logs -f"
+alias doc="docker compose"
+alias logs="docker compose logs -f"
