@@ -34,5 +34,5 @@
 # Add work-specific overrides in particular directories
 [includeIf "gitdir:~/code/"]
 	path = .gitconfig-niche
-[includeIf "gitdir:~/niche/"]
+[includeIf "gitdir:~/office/"]
 	path = .gitconfig-niche
