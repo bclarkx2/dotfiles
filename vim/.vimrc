@@ -53,6 +53,17 @@ Plug 'MaxMEllon/vim-jsx-pretty'
 "" Languages: LaTeX
 Plug 'lervag/vimtex'
 
+"" Languages: graphviz 
+Plug 'liuchengxu/graphviz.vim'
+
+"" Languages: markdown
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'npm install --frozen-lockfile --production',
+  \ 'for': ['markdown'] }
+
+"" AI
+Plug 'github/copilot.vim'
+
 call plug#end()
 
 
@@ -323,8 +334,10 @@ let g:pymode_doc_bind = '<leader>gd'
 """ Markdown
 augroup markdown
 	autocmd!
-	autocmd FileType markdown :set tw=80 	" Don't go past 80 columns
-	autocmd BufWritePost *.md silent execute "!doctoc <afile> &>/dev/null" | redraw!
+	autocmd FileType markdown setlocal tw=80 	        " Don't go past 80 columns
+	autocmd FileType markdown setlocal ts=2 sts=2 sw=2 	" Use 2 space tabstop
+	autocmd FileType markdown setlocal expandtab            " Don't allow tabs
+	" autocmd BufWritePost *.md PrettierAsync
 augroup END
 
 
@@ -358,6 +371,11 @@ augroup END
 """ Typescript
 augroup typescript 
 	autocmd!
+
+	" Set folding 
+	autocmd FileType typescript setlocal foldmethod=syntax  " Fold on Typescript syntax
+	autocmd FileType typescript setlocal foldcolumn=1 	" Indicate folding on left
+	autocmd FileType typescript setlocal foldlevelstart=99  " Start with all folds opened
 
 	" Set spacing and indentation
 	autocmd FileType typescript setlocal ts=2 sts=2 	" Use 2 space tabstop
@@ -405,7 +423,7 @@ augroup END
 """ YAML
 augroup yaml
 	autocmd!
-	autocmd FileType yaml setlocal foldmethod=indent 	" Fold on indents
+	autocmd FileType yaml setlocal foldmethod=syntax 	" Fold on indents
 	autocmd FileType yaml setlocal ts=2 sts=2 		" Use 2 space tabstop
 	autocmd FileType yaml setlocal sw=2 			" Indent new lines 2 spaces
 	autocmd FileType yaml setlocal expandtab 		" Don't allow tabs
@@ -426,6 +444,14 @@ augroup latex
 	filetype plugin indent on 
 	syntax enable
 	let g:vimtex_imaps_enabled = 0 " disable insert mode mappings in favor of UltiSnips
+augroup END
+
+
+""" graphviz
+augroup graphviz
+	autocmd FileType dot setlocal ts=2 sts=2 		" Use 2 space tabstop
+	autocmd FileType dot setlocal sw=2 			" Indent new lines 2 spaces
+	autocmd FileType dot setlocal expandtab 		" Don't allow tabs
 augroup END
 
 
