@@ -393,6 +393,10 @@ snippet uuidt "test uuid" b
 ${1:uuid1} = guid.MustParse("${2:uuid}")
 endsnippet
 
+snippet uuidm "uuid must parse" w
+uuid.MustParse("${1:uuid}")
+endsnippet
+
 snippet timet "test time" w
 ${1:time1}, _ = time.Parse(time.RFC3339, "2000-01-01T02:03:04.555Z")
 endsnippet
