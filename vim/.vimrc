@@ -204,6 +204,8 @@ set statusline+=\ 						" _
 set statusline+=%f         		 			" Path to the file
 set statusline+=%m 						" Modified flag
 set statusline+=%< 						" Truncate point
+set statusline+=\ 
+set statusline+=%{FugitiveStatusline()}                         " Git branch
 set statusline+=%= 			 			" Right/left separator
 set statusline+=%y 						" File type
 set statusline+=\  						" _
