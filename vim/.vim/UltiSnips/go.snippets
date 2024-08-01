@@ -43,6 +43,28 @@ func (e *$1) Error() string {
 }
 endsnippet
 
+snippet cdt "Closure driven tests" b
+func Test_${1:FunctionName}(t *testing.T) {
+	type testCase struct {
+		expected   ${2:ExpectedType}
+		errorCheck expect.ErrorCheck
+	}
+	run := func(name string, testCase testCase) {
+		t.Helper()
+		t.Run(name, func(t *testing.T) {
+			t.Helper()
+			actual, err := ${3:TestExpression},
+			testCase.errorCheck(t, err)
+			expect.Equal(t, actual, testCase.expected)
+		})
+	}
+
+	run("Success", testCase{
+		errorCheck: expect.ErrorNil,
+	})
+}
+endsnippet
+
 snippet tdt "Table driven tests" b
 func Test_${1:Method}(t *testing.T) {
 	${2:type fields struct {
