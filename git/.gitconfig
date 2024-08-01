@@ -25,6 +25,8 @@
 	l = log
 	try-merge = merge --no-ff --no-commit
 	sub = submodule
+	b = branch
+	files = !git-files
 
 # Add work-specific overrides in particular directories
 [includeIf "gitdir:~/code/"]
