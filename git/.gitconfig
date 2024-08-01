@@ -28,6 +28,9 @@
 	b = branch
 	files = !git-files
 
+[push]
+	autoSetupRemote = true
+
 # Add work-specific overrides in particular directories
 [includeIf "gitdir:~/code/"]
 	path = .gitconfig-niche
