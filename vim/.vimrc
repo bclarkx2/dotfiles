@@ -27,6 +27,7 @@ Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 Plug 'airblade/vim-gitgutter'
+Plug 'rhysd/conflict-marker.vim'
 
 "" Colorschemes
 Plug 'gilgigilgil/anderson.vim'
@@ -436,6 +437,8 @@ set updatetime=10 	           " Refresh faster
 set signcolumn=yes 	           " Always show sign column to avoid screen jump
 highlight! link SignColumn LineNr  " Use bg color in sign column
 
+""" git-fugitive
+command! Review let base_branch = system('gh pr status --json baseRefName --jq .currentBranch.baseRefName') | exec 'Gvdiffsplit' base_branch
 
 """ Coc
 "" Configure language servers
