@@ -1,0 +1,24 @@
+{
+  "diagnostic.checkCurrentLine": true,
+  "diagnostic.messageTarget": "echo",
+  "coc.preferences.formatOnSaveFiletypes": [
+    "javascript",
+    "typescript",
+    "html",
+    "json",
+    "css",
+    "scss",
+    "go"
+  ],
+  "languageserver": {
+    "golang": {
+      "command": "gopls",
+      "rootPatterns": ["go.mod"],
+      "filetypes": ["go"]
+    }
+  },
+  "go.goplsOptions": {
+    "staticcheck": true
+  },
+  "prettier.printWidth": "20"
+}
