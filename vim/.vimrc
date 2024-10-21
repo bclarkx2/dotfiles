@@ -217,7 +217,8 @@ set statusline+=%4c/%-4{col('$')-1} 				" Column number
 
 """ Go
 "" Go: Config
-let g:go_fmt_command = "goimports"
+let g:go_fmt_command = "gopls"
+let g:go_gopls_gofumpt = 1
 let g:go_addtags_transform="camelcase"
 let g:go_def_mode='gopls'
 let g:go_info_mode='gopls'
