@@ -328,6 +328,7 @@ augroup END
 "" Python: settings
 let g:pymode_lint_on_fly = 1
 let g:pymode_lint_checkers = ['pylint']
+let g:pymode_lint_signs = 0
 
 
 "" Python: mappings
