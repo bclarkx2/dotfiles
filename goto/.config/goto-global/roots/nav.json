@@ -13,6 +13,8 @@
 		"tools": "tools",
 		"goto": "tools/goto",
 		"pwd": "tools/pwd",
+		"ubuntu-setup": "tools/ubuntu-setup",
+		"gnome-settings": "tools/gnome-settings",
 		"local": "local",
 		"lbin": "local/bin",
 		"ldot": "local/dotfiles",
