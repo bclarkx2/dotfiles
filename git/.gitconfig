@@ -1,7 +1,7 @@
 # Default user/email
 [user]
 	email = bclarkx2@gmail.com
-	user = Brian Clark
+	name = Brian Clark
 [core]
 	pager = less -r
 	excludesfile = ~/.gitignore
@@ -16,6 +16,7 @@
 	s = status
 	sw = switch
 	d = diff
+	dc = diff --cached
 	a = add
 	aa = add .
 	c = commit
