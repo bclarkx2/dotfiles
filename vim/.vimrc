@@ -508,6 +508,27 @@ inoremap <silent><expr> <Tab>
       \ coc#refresh()
 
 
+""" Copilot
+augroup copilot
+	" Remove default copilot mappings -- they don't work well in my
+	" terminal.
+	autocmd VimEnter * iunmap <M-C-Right>
+	autocmd VimEnter * iunmap <M-Right>
+	autocmd VimEnter * iunmap <M-Bslash>
+	autocmd VimEnter * iunmap <M-[>
+	autocmd VimEnter * iunmap <M-]>
+	autocmd VimEnter * iunmap <C-]>
+
+	" Add mappings for working with current suggestion.
+	imap <Esc>0 <Plug>(copilot-next)
+	imap <Esc>9 <Plug>(copilot-previous)
+	imap <Esc>- <Plug>(copilot-dismiss)
+	imap <Esc>\ <Plug>(copilot-suggest)
+	imap <Esc>8 <Plug>(copilot-accept-word)
+	imap <Esc>* <Plug>(copilot-accept-line)
+augroup END
+
+
 """ UltiSnips
 let g:UltiSnipsExpandTrigger = "<Insert>" 	" Expand a snippet
 let g:UltiSnipsJumpForwardTrigger = "<Tab>" 	" Move forward through tabstops
