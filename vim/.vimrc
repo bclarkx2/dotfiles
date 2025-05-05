@@ -289,8 +289,6 @@ augroup go
 	
 	" Run/build
 	au FileType go nmap <leader>b :<C-u>call <SID>build_go_files()<CR>
-	au FileType go nmap <leader>r <Plug>(go-run)
-	au FileType go nmap <leader>t <Plug>(go-test)
 	au FileType go nmap <leader>g <Plug>(go-generate)
 
 	" Navigate
@@ -313,6 +311,7 @@ augroup go
 	
 	" Format
 	au FileType go nmap <leader>ml <Plug>(go-metalinter)
+	au FileType go nmap <leader>q gqac
 	
 	" Testing info
 	au FileType go nmap <leader>ct <Plug>(go-coverage-toggle)
@@ -325,8 +324,8 @@ augroup go
 	au FileType go nmap <leader>tp ebhdl"=TogglePointer(@@)<CR>P
 
 	" Copy line location in remote
-	au FileType go nmap <leader>h :0:GBrowse!<return><return>
-	au FileType go vmap <leader>h :GBrowse!<return><return>
+	au FileType go nmap <leader>o :0:GBrowse!<return><return>
+	au FileType go vmap <leader>o :GBrowse!<return><return>
 augroup END
 
 
