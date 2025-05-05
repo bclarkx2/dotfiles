@@ -22,6 +22,7 @@ Plug 'tpope/vim-unimpaired'
 Plug 'tpope/vim-commentary'
 Plug 'FooSoft/vim-argwrap'
 Plug 'godlygeek/tabular'
+Plug 'AndrewRadev/sideways.vim'
 
 "" Tmux
 Plug 'tmux-plugins/vim-tmux-focus-events'
@@ -463,6 +464,19 @@ augroup graphviz
 	autocmd FileType dot setlocal expandtab 		" Don't allow tabs
 augroup END
 
+""" sideways
+augroup sideways
+	nnoremap <c-h> :SidewaysLeft<CR>
+	nnoremap <c-l> :SidewaysRight<CR>
+	omap aa <Plug>SidewaysArgumentTextobjA
+	xmap aa <Plug>SidewaysArgumentTextobjA
+	omap ia <Plug>SidewaysArgumentTextobjI
+	xmap ia <Plug>SidewaysArgumentTextobjI
+	nmap <leader>si <Plug>SidewaysArgumentInsertBefore
+	nmap <leader>sa <Plug>SidewaysArgumentAppendAfter
+	nmap <leader>sI <Plug>SidewaysArgumentInsertFirst
+	nmap <leader>sA <Plug>SidewaysArgumentAppendLast
+augroup END
 
 """ jq
 "" Use jq inside vim on text in current buffer
