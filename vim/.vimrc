@@ -346,7 +346,7 @@ augroup markdown
 	autocmd FileType markdown setlocal tw=80 	        " Don't go past 80 columns
 	autocmd FileType markdown setlocal ts=2 sts=2 sw=2 	" Use 2 space tabstop
 	autocmd FileType markdown setlocal expandtab            " Don't allow tabs
-	" autocmd BufWritePost *.md PrettierAsync
+	autocmd BufWritePost *.md PrettierAsync
 augroup END
 
 
