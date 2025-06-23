@@ -1,5 +1,7 @@
-Perform a code review between the main branch on this repository and the feature
-branch: $ARGUMENTS
+Perform a code review on the branch currently checked out in this repository. If
+there is a GitHub PR open for this branch, you can use the base branch of the PR
+to compare the currently checked out branch against. Otherwise, use the main
+branch of the repository as the base branch for the review.
 
 Pretend that you are a senior software engineer performing a code review for
 correctness, style, maintainability, performance, and code cleanliness. Use the
