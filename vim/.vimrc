@@ -205,6 +205,7 @@ set statusline=%n  						" Buffer number
 set statusline+=\ 						" _
 set statusline+=%f         		 			" Path to the file
 set statusline+=%m 						" Modified flag
+set statusline+=%r                                              " Readonly flag
 set statusline+=%< 						" Truncate point
 set statusline+=\ 
 set statusline+=%{FugitiveStatusline()}                         " Git branch
