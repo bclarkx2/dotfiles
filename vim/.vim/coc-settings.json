@@ -17,8 +17,5 @@
       "filetypes": ["go"]
     }
   },
-  "go.goplsOptions": {
-    "staticcheck": true
-  },
   "prettier.printWidth": "20"
 }
