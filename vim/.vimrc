@@ -36,9 +36,6 @@ Plug 'airblade/vim-gitgutter'
 Plug 'rhysd/conflict-marker.vim'
 
 "" Colorschemes
-" Plug 'gilgigilgil/anderson.vim'
-Plug 'lifepillar/vim-solarized8'
-" Plug 'jez/vim-colors-solarized'
 
 "" Coc
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
@@ -189,7 +186,6 @@ set lazyredraw 		" don't redraw screen during macro
 "" Color scheme
 syntax on 		" enable syntax highlighting
 " set background=dark
-" colorscheme solarized8 	" use a vim colorscheme
 
 
 """ Shortcuts
