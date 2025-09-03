@@ -308,7 +308,7 @@ augroup go
 	
 	" Format
 	au FileType go nmap <leader>ml <Plug>(go-metalinter)
-	au FileType go nmap <leader>q gqac
+	au FileType go nmap <leader>q gwac
 	
 	" Testing info
 	au FileType go nmap <leader>ct <Plug>(go-coverage-toggle)
